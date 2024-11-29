@@ -15,14 +15,40 @@ module ID_EX #(
     output logic [PC_WIDTH-1:0]     pc_out,
     output logic [4:0]              rd_out,
     output logic [PC_WIDTH-1:0]     pc_plus4_out
+
+    // Control Unit Signals
+    input  logic                    reg_write_in,
+    input  logic [1:0]              result_src_in,
+    input  logic                    mem_write_in,
+    input  logic                    jump_in,
+    input  logic                    branch_in,
+    input  logic [4:0]              alu_ctrl_in,
+    input  logic                    alu_src_in,
+
+    output logic                    reg_write_out,
+    output logic [1:0]              result_src_out,
+    output logic                    mem_write_out,
+    output logic                    jump_out,
+    output logic                    branch_out,
+    output logic [4:0]              alu_ctrl_out,
+    output logic                    alu_src_out,
 );
 
 always_ff @(posedge clk or negedge rst) begin
-    rd1_out_out <= (!rst) ? '0 : rd1_in;
+    rd1_out <= (!rst) ? '0 : rd1_in;
     rd2_out <= (!rst) ? '0 : rd2_in;
     pc_out <= (!rst) ? '0 : pc_in;
     rd_out <= (!rst) ? '0 : rd_in;
     pc_plus4_out <= (!rst) ? '0 : pc_plus4_in;
+
+    // Control Unit Signals
+    reg_write_out <= (!rst) ? '0 : reg_write_in;
+    result_src_out <= (!rst) ? '0 : result_src_in;
+    mem_write_out <= (!rst) ? '0 : mem_write_in;
+    jump_out <= (!rst) ? '0 : jump_in;
+    branch_out <= (!rst) ? '0 : branch_in;
+    alu_ctrl_out <= (!rst) ? '0 : alu_ctrl_in;
+    alu_src_out <= (!rst) ? '0 : alu_src_in;
 end
 
 endmodule
