@@ -11,34 +11,34 @@ module main_decoder (
         Mem_read = 0; 
         Mem_write = 0; 
         Branch = 0;
-        ALU_op = 2'b00; 
+        ALU_Op = 2'b00; 
         PCSrc = 2'b00; 
         ImmSrc = 3'b000;
 
         case (opcode)
             7'b0110011: begin // R-Type
                 Reg_write = 1; 
-                ALU_op = 2'b10;
+                ALU_Op = 2'b10; // Multiplication support included here
             end
             7'b0000011: begin // I-Type (Load)
                 Reg_write = 1; 
-                Mem_write = 1; 
-                ALU_op = 2'b00; 
+                Mem_read = 1; 
+                ALU_Op = 2'b00; 
                 ImmSrc = 3'b000;
             end
             7'b0010011: begin // I-Type (ALU)
                 Reg_write = 1;
-                ALU_op = 2'b10; 
+                ALU_Op = 2'b10; 
                 ImmSrc = 3'b000;
             end
             7'b0100011: begin // S-Type (Store)
                 Mem_write = 1; 
-                ALU_op = 2'b00; 
+                ALU_Op = 2'b00; 
                 ImmSrc = 3'b001;
             end
             7'b1100011: begin // B-Type (Branch)
                 Branch = 1; 
-                ALU_op = 2'b01; 
+                ALU_Op = 2'b01; 
                 PCSrc = 2'b01;
                 ImmSrc = 3'b010;
             end
