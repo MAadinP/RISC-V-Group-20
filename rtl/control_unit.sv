@@ -1,28 +1,29 @@
-module control_unit #(
-    parameter OP_WIDTH = 7,
-    parameter FUNC3_WIDTH = 3,
-    parameter ALUCTRL_WIDTH = 3,
-    parameter IMMSRC_WIDTH = 2 
-) (
-    input   logic [OP_WIDTH-1:0]        op,
-    input   logic [FUNC3_WIDTH-1:0]     func3,
-    input   logic [1:0]                 func7_5_0, // only need 5th and 0th bits of func 7 for single cycle
-    input   logic                       zero,
-    output  logic [ALUCTRL_WIDTH-1:0]   alu_control,
-    output  logic [IMMSRC_WIDTH:0]      imm_src,
-    output  logic                       pc_src,
-    output  logic                       result_src,
-    output  logic                       alu_src,
-    output  logic                       mem_write,
-    output  logic                       reg_write,
+module control_unit (
+    input  logic [31:0] instruction,
+    output logic       Reg_write, Mem_read, Mem_write, Branch,
+    output logic [3:0] ALU_ctrl,
+    output logic [1:0] PCSrc,
+    output logic [2:0] ImmSrc
 );
 
-    main_decoder maindecoder(
-        
+    logic [6:0] opcode;
+    logic [2:0] funct3;
+    logic [6:0] funct7;
+    logic [1:0] ALU_op;
+
+    assign opcode = instruction[6:0];
+    assign funct3 = instruction[14:12];
+    assign funct7 = instruction[31:25];
+
+    main_decoder u_main_decoder (
+        .opcode(opcode),
+        .RegWrite(RegWrite), .MemRead(MemRead), .MemWrite(MemWrite),
+        .Branch(Branch), .ALUOp(ALUOp), .PCSrc(PCSrc), .ImmSrc(ImmSrc)
     );
 
-    alu_decoder aludecoder(
-
+    alu_decoder u_alu_decoder (
+        .ALUOp(ALUOp), .funct3(funct3), .funct7(funct7),
+        .ALUCtrl(ALUCtrl)
     );
 
 endmodule
