@@ -1,0 +1,24 @@
+module program_counter #( //Model 2
+    parameter PC_WIDTH = 32 //using 32 bits, 32I
+) ( //external logic
+    input   logic                   clk,
+    input   logic                   rst,
+    input   logic                   pc_src,
+    input   logic [PC_WIDTH-1:0]    pc_branch, //new in log
+    output  logic [PC_WIDTH-1:0]    pc
+);
+//internal logic
+    logic [PC_WIDTH-1:0] pc_next;
+    logic [PC_WIDTH-1:0] pc_plus4;  //made internal //corr name
+
+    assign pc_plus4 = pc + 4'b0100; //regular increment 
+    assign pc_next = pc_src[1] ? pc_branch : (pc_src[0] ? pc + pc_branch : pc_plus4); //mux, sel val is scr  //corr name //doesn't need posedge 
+    //MSB = 1: adress loaded in, LSB = 1: PC + Branch, LSB = 0: Increment of 0
+
+    always_ff @ (posedge clk) //pos edge synch
+        if (rst)
+            pc = 32'hBFC00000;  // INSTR MEM STARTS AT THIS VALUE
+        else
+            pc = pc_next;
+
+endmodule
