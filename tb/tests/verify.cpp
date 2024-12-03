@@ -12,7 +12,7 @@ protected:
     {
         top->clk = 1;
         top->rst = 0;
-    }
+    } 
 };
 
 TEST_F(CpuTestbench, BaseProgramTest)
