@@ -1,16 +1,18 @@
 module control_unit #(
     parameter DATA_WIDTH = 32,
     parameter ALUCTRL_WIDTH = 5,
-    parameter DATA_WIDTH = 32
+    parameter BRANCH_WIDTH = 5,
 ) (
     input   logic [DATA_WIDTH-1:0]      instruction,
-    output  logic                       reg_write, 
+    output  logic [ALUCTRL_WIDTH-1:0]   alu_ctr,  // Adjusted for 5-bit ALU control
+    output  logic [BRANCH_WIDTH-1:0]    branch_ctr, 
+    output  logic                       imm_src, 
+    output  logic                       op1_src, 
+    output  logic                       op2_src, 
+    output  logic                       mem_write, 
     output  logic                       mem_read, 
-    output  logic                       meg_write, 
-    output  logic                       branch, 
-    output logic [ALUCTRL_WIDTH-1:0]    alu_ctrl,  // Adjusted for 5-bit ALU control
-    output logic [1:0]                  pc,
-    output logic [2:0]                  imm_src
+    output  logic [1:0]                 wb_src,
+    output  logic                       reg_write 
 );
 
     logic [6:0] opcode;
@@ -39,7 +41,7 @@ module control_unit #(
         .func3(funct3),
         .alu_op(alu_op),
         .func7_5_0(funct7_5_0),
-        .alu_ctrl(alu_ctrl)
+        .alu_ctrl(alu_ctr)
     );
 
 endmodule

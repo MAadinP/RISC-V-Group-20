@@ -3,13 +3,18 @@ module top #(
 ) (
     input   logic               clk,
     input   logic               rst,
-    input   logic               rst,
+    input   logic               trigger,
+    output  logic               a0
 );
 
     wire pc_wire;
     wire pc_plus4_wire;
     wire alu_src_wire;
     wire branch_src_wire;
+    wire branch_src_wire;
+    wire branch_src_wire;
+    wire data_src1_wire;
+    wire data_src1_wire;
     wire data_src1_wire;
     wire data_src2_wire;
     wire result_src_wire;
@@ -29,7 +34,7 @@ module top #(
     );
 
     // datapath
-    datapath datapath(
+    datapath_top datapath(
         .pc_in(pc_wire),
         .pc_plus4_in(pc_plus4_wire),
         .alu_src_in(alu_src_wire),

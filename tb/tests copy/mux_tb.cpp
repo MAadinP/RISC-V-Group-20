@@ -3,38 +3,43 @@
  */
 
 #include "base_testbench.h"
-#include <iostream>
 
 Vdut *top;
 VerilatedVcdC *tfp;
 unsigned int ticks = 0;
 
-class InstructionMemoryTestbench : public BaseTestbench
+class MuxTestbench : public BaseTestbench
 {
 protected:
     void initializeInputs() override
     {
-        top->pc = 0;
+        top->sel = 0;
+        top->in0 = 0;
+        top->in1 = 0;
         // output: out
     }
 };
 
-TEST_F(InstructionMemoryTestbench, IM0WorksTest)
+TEST_F(MuxTestbench, Mux0WorksTest)
 {
-    top->pc = 0;
+    top->sel = 0;
+    top->in0 = 1;
+    top->in1 = 0;
+
     top->eval();
-    std::cout<<"HERE:"<<top->instr<<std::endl;
-    EXPECT_EQ(top->instr, 1313556549);
-    
+
+    EXPECT_EQ(top->out, 1);
 }
 
-TEST_F(InstructionMemoryTestbench, IM1WorksTest)
+TEST_F(MuxTestbench, Mux1WorksTest)
 {
-    top->pc = 5;
+    top->sel = 1;
+    top->in0 = 0;
+    top->in1 = 1;
+
     top->eval();
-    std::cout<<"HERE:"<<top->instr<<std::endl;
-    EXPECT_EQ(top->instr, 567354312);
-    
+
+    EXPECT_EQ(top->out, 1);
 }
 
 int main(int argc, char **argv)
