@@ -36,9 +36,9 @@ TEST_F(MainDecoderTestbench, ITypeLoadInstruction)
     std::cout << "Opcode: I-Type (Load)" << std::endl;
     std::cout << "imm_src: " << top->imm_src << std::endl;
 
-    EXPECT_EQ(top->reg_write, 1);      // reg_write should be 1
-    EXPECT_EQ(top->mem_write, 0);      // mem_write should be 0
-    EXPECT_EQ(top->imm_src, 0);        // imm_src should be 0
+    EXPECT_EQ(top->reg_write, 1);      
+    EXPECT_EQ(top->mem_write, 0);     
+    EXPECT_EQ(top->imm_src, 0);       
 }
 
 // Test case for S-Type 
