@@ -22,17 +22,15 @@ module ID_EX #(
     input  logic                    reg_write_in,
     input  logic [1:0]              result_src_in,
     input  logic                    mem_write_in,
-    input  logic                    jump_in,
-    input  logic                    branch_in,
     input  logic [4:0]              alu_ctrl_in,
+    input  logic [2:0]              branch_jump_in,
     input  logic                    alu_src_in,
 
     output logic                    reg_write_out,
     output logic [1:0]              result_src_out,
     output logic                    mem_write_out,
-    output logic                    jump_out,
-    output logic                    branch_out,
     output logic [4:0]              alu_ctrl_out,
+    output logic [2:0]              branch_jump_out,
     output logic                    alu_src_out,
 );
 
