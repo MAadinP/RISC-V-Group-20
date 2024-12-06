@@ -2,7 +2,6 @@ module main_decoder #(
     input  logic [6:0] opcode,
     output logic       reg_write,  
     output logic       mem_write,  
-    output logic       branch,     
     output logic [1:0] alu_op,     
     output logic [1:0] pc_src,     
     output logic [2:0] imm_src     
@@ -12,7 +11,6 @@ module main_decoder #(
         // Default control signals (inactive state)
         reg_write = 0; 
         mem_write = 0; 
-        branch = 0;
         alu_op = 2'b00; 
         pc_src = 2'b00; 
         imm_src = 3'b000;
@@ -37,18 +35,10 @@ module main_decoder #(
                 alu_op = 2'b00; 
                 imm_src = 3'b001;
             end
-            7'b1100011: begin // B-Type (Branch)
-                branch = 1; 
-                alu_op = 2'b01; 
-                pc_src = 2'b01; 
-                imm_src = 3'b010;
-            end
             7'b1101111: begin // J-Type (Jump)
                 reg_write = 1; 
                 pc_src = 2'b10; 
                 imm_src = 3'b011;
-                mem_write = 0;  
-                branch = 0;     
             end
         endcase
     end
