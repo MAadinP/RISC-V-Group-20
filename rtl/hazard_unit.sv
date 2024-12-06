@@ -11,6 +11,13 @@ module hazard_unit #(
     input  logic                    reg_write_m,
     output logic [1:0]              forward_a,      // Multiplexer Control Signals
     output logic [1:0]              forward_b,
+
+    // Stalls (for LW)
+    input  logic [1:0]              result_src,
+    output logic                    stall_f,
+    output logic                    stall_d,
+    output logic                    flush_e
+
 );
 
 always_comb begin
@@ -29,6 +36,9 @@ always_comb begin
     end else begin
         forward_b = 2'b00;                                          // No Forwarding Required (RS2)
     end
+
+
+    
 end
 
 
