@@ -1,7 +1,6 @@
 module main_decoder #(
     input   logic [6:0] opcode,
     input   logic [2:0] func3,
-    input   logic [6:0] func7,
     output  logic [1:0] alu_op,
     output  logic [2:0] imm_src,
     output  logic [2:0] branch_ctr,
@@ -30,9 +29,9 @@ module main_decoder #(
                 wb_src = 2'b11;
                 reg_write = 1; 
                 mem_write = 0; 
-                alu_op = 2'b10;
-                imm_src = 3'b;
-                branch_ctr = 3'b000;
+                alu_op = 2'b00;
+                imm_src = 3'b000;
+                branch_ctr = 3'b010;
             end
             7'b0010011: begin // I-Type (ALU) - Contains Unnsigned extend
                 op1_src = 0;
@@ -40,18 +39,13 @@ module main_decoder #(
                 wb_src = 2'b01;
                 reg_write = 1; 
                 mem_write = 0; 
-                alu_op = 2'b00;
-                case (func3)
-                    3'b000:
-                    3'b000:
-                    3'b000:
-                    default:
-                endcase
+                alu_op = 2'b10;
+                imm_src = 3'b;
                 branch_ctr = 3'b010;
             end
             7'b0100011: begin // S-Type (Store)
                 op1_src = 0;
-                op2_src = 0;
+                op2_src = 1;
                 wb_src = 2'b00;
                 reg_write = 0; 
                 mem_write = 1; 
@@ -60,44 +54,62 @@ module main_decoder #(
                 branch_ctr = 3'b010;
             end
             7'b1100011: begin // B-Type (Branch) - Contains Unnsigned extend
-                op1_src = 0;
-                op2_src = 0;
+                op1_src = 1;
+                op2_src = 1;
                 wb_src = 2'b00;
                 reg_write = 0; 
                 mem_write = 0; 
-                alu_op = 2'b; 
-                imm_src = 3'b;
-                branch_ctr = 3'b;
+                alu_op = 2'b01; 
+                imm_src = 3'b010;
+                case (func3)
+                    3'h0: branch_ctr = 3'b000;
+                    3'h1: branch_ctr = 3'b001;
+                    3'h4: branch_ctr = 3'b100;
+                    3'h5: branch_ctr = 3'b101;
+                    3'h6: branch_ctr = 3'b111;
+                    3'h7: branch_ctr = 3'b110;
+                    default: branch_ctr = 3'b010;
+                endcase
             end
-            7'b1101111: begin // J-Type (Jump)
-                op1_src = 0;
-                op2_src = 0;
-                wb_src = 2'b00;
-                reg_write = 0; 
-                mem_write = 0; 
-                alu_op = 2'b00; 
-                imm_src = 3'b100;
-                branch_ctr = 3'b000;
-            end
-            7'b0010111: begin // U-Type (LUI)
-                op1_src = 0;
-                op2_src = 0;
+            7'b1101111: begin // JAL
+                op1_src = 1;
+                op2_src = 1;
                 wb_src = 2'b00;
                 reg_write = 1; 
                 mem_write = 0; 
                 alu_op = 2'b00; 
+                imm_src = 3'b100;
+                branch_ctr = 3'b011;
+            end
+            7'b1100111: begin // JALR
+                op1_src = 0;
+                op2_src = 1;
+                wb_src = 2'b00;
+                reg_write = 1; 
+                mem_write = 0; 
+                alu_op = 2'b00; 
+                imm_src = 3'b100;
+                branch_ctr = 3'b011;
+            end
+            7'b0010111: begin // U-Type (LUI)
+                op1_src = 0;
+                op2_src = 0;
+                wb_src = 2'b10;
+                reg_write = 1; 
+                mem_write = 0; 
+                alu_op = 2'b00; 
                 imm_src = 3'b011;
-                branch_ctr = 3'b000;
+                branch_ctr = 3'b010;
             end
             7'b0010111: begin // U-Type (AUIPC)
                 op1_src = 1;
                 op2_src = 1;
                 wb_src = 2'b01;
-                reg_write = 0; 
+                reg_write = 1; 
                 mem_write = 0; 
-                alu_op = 2'b00000; 
+                alu_op = 2'b00; 
                 imm_src = 3'b011;
-                branch_ctr = 3'b000;
+                branch_ctr = 3'b010;
             end
             default: begin
                 op1_src = 0;
