@@ -87,7 +87,7 @@ module datapath_top #(
         .in0(pc_plus4_in),
         .in1(alu_out),
         .in2(imm_out),
-        .in3(imm_out),
+        .in3(mem_out),
         .sel(result_src_in),
         .out(write_back)
     );

@@ -7,7 +7,7 @@ module main_decoder #(
     output  logic       mem_write, 
     output  logic       op1_src,
     output  logic       op2_src,
-    output  logic       wb_src,
+    output  logic [1:0] wb_src,
     output  logic       reg_write
 );
 

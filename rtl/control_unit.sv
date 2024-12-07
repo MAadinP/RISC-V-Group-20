@@ -4,15 +4,14 @@ module control_unit #(
     parameter BRANCH_WIDTH = 5,
 ) (
     input   logic [DATA_WIDTH-1:0]      instruction,
-    output  logic [ALUCTRL_WIDTH-1:0]   alu_ctr,  // Adjusted for 5-bit ALU control
-    output  logic [BRANCH_WIDTH-1:0]    branch_ctr, 
-    output  logic                       imm_src, 
-    output  logic                       op1_src, 
-    output  logic                       op2_src, 
+    output  logic [ALUCTRL_WIDTH-1:0]   alu_ctr,  
+    output  logic [2:0]                 imm_src,
+    output  logic [2:0]                 branch_ctr,
     output  logic                       mem_write, 
-    output  logic                       mem_read, 
+    output  logic                       op1_src,
+    output  logic                       op2_src,
     output  logic [1:0]                 wb_src,
-    output  logic                       reg_write 
+    output  logic                       reg_write
 );
 
     logic [6:0] opcode;
@@ -28,13 +27,15 @@ module control_unit #(
 
     main_decoder main_decoder_unit (
         .opcode(opcode),
-        .reg_write(reg_write), 
-        .mem_read(mem_read), 
+        .func3(func3),
+        .alu_op(alu_op),
+        .imm_src(imm_src),
+        .branch_ctr(branch_ctr),
         .mem_write(mem_write),
-        .branch(branch), 
-        .alu_op(alu_op), 
-        .pc_src(pc_src), 
-        .imm_src(imm_src)
+        .op1_src(op1_src),
+        .op2_src(op2_src),
+        .wb_src(wb_src),
+        .reg_write(reg_write)     
     );
 
     alu_decoder alu_decoder_unit (

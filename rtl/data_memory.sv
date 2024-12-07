@@ -1,7 +1,7 @@
 module data_memory #(
     parameter ADDR_WIDTH = 32,
     parameter DATA_WIDTH = 32,
-    parameter BYTE_WIDTH = 8,
+    parameter BYTE_WIDTH = 8
 ) (
     input   logic                   clk,
     input   logic                   write_enable,
@@ -16,12 +16,12 @@ module data_memory #(
     always_ff @(posedge clk) begin                                                  
         if(write_enable) begin
             case (func3) 
-                1'h0: ram[address] <= write_data[7:0];                                   // SB                                
-                1'h1: begin
-                    ram[address] <= write_data[7:0];                                     // SH
+                3'h0: ram[address] <= write_data[7:0];                                  // SB                                
+                3'h1: begin
+                    ram[address] <= write_data[7:0];                                    // SH
                     ram[address+1] <= write_data[15:8]; 
                 end
-                1'h2: begin                                                             // SW
+                3'h2: begin                                                             // SW
                     ram[address] <= write_data[7:0];                                     
                     ram[address+1] <= write_data[15:8];
                     ram[address+2] <= write_data[23:16];                                     
@@ -34,12 +34,12 @@ module data_memory #(
 
     always_comb begin
         case (func3)
-            1'h0: data_out = {24{ram[address][7]}, ram[address]};                               // LB
-            1'h1: data_out = {16{ram[address+1][7]}, ram[address+1], ram[address]};             // LH
-            1'h2: data_out = {ram[address+3], ram[address+2], ram[address+1], ram[address]};    // LW
-            1'h4: data_out = {24{1'b0}, ram[address]};                                          // LBU
-            1'h5: data_out = {16{1'b0}, ram[address+1], ram[address]};                          // LHU
-            default: data_out = {24{ram[address][7]}, ram[address]};
+            3'h0: data_out = {{24{ram[address][7]}}, ram[address]};                             // LB
+            3'h1: data_out = {{16{ram[address+1][7]}}, ram[address+1], ram[address]};           // LH
+            3'h2: data_out = {ram[address+3], ram[address+2], ram[address+1], ram[address]};    // LW
+            3'h4: data_out = {24{1'b0}, ram[address]};                                          // LBU
+            3'h5: data_out = {16{1'b0}, ram[address+1], ram[address]};                          // LHU
+            default: data_out = 32'b0;
         endcase
     end
 

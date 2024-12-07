@@ -11,10 +11,6 @@ module top #(
     wire pc_plus4_wire;
     wire alu_src_wire;
     wire branch_src_wire;
-    wire branch_src_wire;
-    wire branch_src_wire;
-    wire data_src1_wire;
-    wire data_src1_wire;
     wire data_src1_wire;
     wire data_src2_wire;
     wire result_src_wire;
@@ -43,7 +39,7 @@ module top #(
         .rst(),
         .data_src1_in(),
         .data_src2_in(),
-        .result_src_in(),
+        .result_src_in(wb_src),
         .reg_write_in(),
         .imm_src_in(),
         .mem_write_in(),
@@ -62,7 +58,15 @@ module top #(
     
     // control unit
     control_unit control_unit(
-
+        .instruction(),
+        .alu_ctr(),
+        .imm_src(),
+        .branch_ctr(),
+        .mem_write(),
+        .op1_src(),
+        .op2_src(),
+        .wb_src(),
+        .reg_write()
     );
     
 endmodule

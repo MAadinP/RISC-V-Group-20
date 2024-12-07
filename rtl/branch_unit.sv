@@ -7,10 +7,12 @@ module branch_unit #(
     output  logic                   pc_sel
 );
     logic equal;
-    logic less_than;
+    logic less_than_s;
+    logic less_than_u;
 
     assign equal = (data_1 == data_2);
-    assign less_than = $unsigned(data_1) < $unsigned(data_2);
+    assign less_than_s = $signed(data_1) < $signed(data_2);
+    assign less_than_u = $unsigned(data_1) < $unsigned(data_2);
 
     always_comb begin
         case (branch_sel)
@@ -18,10 +20,10 @@ module branch_unit #(
             3'b001: pc_sel = ~equal;                // bne
             3'b010: pc_sel = 0;                     // no branch
             3'b011: pc_sel = 1;                     // jal/jalr/auipc     
-            3'b100: pc_sel = less_than;             // blt
-            3'b101: pc_sel = ~less_than;            // bge
-            3'b110: pc_sel = ~less_than;            // bgeu
-            3'b111: pc_sel = less_than;             // bltu
+            3'b100: pc_sel = less_than_s;           // blt
+            3'b101: pc_sel = ~less_than_s;          // bge
+            3'b110: pc_sel = ~less_than_u;          // bgeu            
+            3'b111: pc_sel = less_than_u;           // bltu
             default: pc_sel = 0;                    // no branch default
         endcase 
     end
