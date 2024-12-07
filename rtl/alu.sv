@@ -12,8 +12,8 @@ module alu #(
             5'b00000: alu_out = alu_op1 + alu_op2;                                                  // ADD
             5'b00001: alu_out = alu_op1 - alu_op2;                                                  // SUB
             5'b00010: alu_out = alu_op1 << alu_op2;                                                 // SLL
-            5'b00011: alu_out = ($signed(alu_op1) < $signed(alu_op2)) ? 1'b1 : 1'b0;                // SLT
-            5'b00100: alu_out = (alu_op1 < alu_op2) ? 1'b1 : 1'b0;                                  // SLTU
+            5'b00011: alu_out = ($signed(alu_op1) < $signed(alu_op2)) ? 32'b1 : 32'b0;                // SLT
+            5'b00100: alu_out = (alu_op1 < alu_op2) ? 32'b1 : 32'b0;                                  // SLTU
             5'b00101: alu_out = alu_op1 ^ alu_op2;                                                  // XOR
             5'b00110: alu_out = alu_op1 >> alu_op2;                                                 // SRL
             5'b00111: alu_out = $signed(alu_op1) >>> alu_op2                                        // SRA
