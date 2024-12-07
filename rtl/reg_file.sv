@@ -9,14 +9,13 @@ module reg_file # (
     input   logic                       write_en,
     input   logic [DATA_WIDTH-1:0]      write_data,
     output  logic [DATA_WIDTH-1:0]      data1,
-    output  logic [DATA_WIDTH-1:0]      data2,
+    output  logic [DATA_WIDTH-1:0]      data2,                  
     output  logic [DATA_WIDTH-1:0]      a0
 
 );
     logic [DATA_WIDTH-1:0] register_array [2**ADDRESS_WIDTH-1:0];
 
-    //assign register_array[0] = '0;
-    //used during testing
+    //assign register_array[0] = '0; used during testing
     initial register_array[0] = '0;
 
     always_comb begin

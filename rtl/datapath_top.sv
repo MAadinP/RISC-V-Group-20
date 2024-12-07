@@ -19,6 +19,7 @@ module datapath_top #(
     output  logic [DATA_WIDTH-1:0]      alu_out,
     output  logic [DATA_WIDTH-1:0]      reg1_out,
     output  logic [DATA_WIDTH-1:0]      reg2_out,
+    output  logic [DATA_WIDTH-1:0]      a0_out
 );
 
     wire whole_instr;
@@ -40,15 +41,16 @@ module datapath_top #(
         .imm_extend(imm_out)
     );
 
-    register_file register_file_unit(
+    reg_file register_file_unit(
         .clk(clk),
-        .address1(whole_instr[19:15]),
-        .address2(whole_instr[24:20]),
-        .address3(whole_instr[11:7]),
-        .write_enable3(reg_write_in),
-        .write_data3(write_back),
-        .read_data1(reg1_out),
-        .read_data2(reg2_out),
+        .read_addr1(whole_instr[19:15]),
+        .read_addr2(whole_instr[24:20]),
+        .write_addr(whole_instr[11:7]),
+        .write_en(reg_write_in),
+        .write_data(write_back),
+        .data1(reg1_out),
+        .data1(reg2_out),
+        .a0(a0_out)
     );
 
     mux data_mux1(

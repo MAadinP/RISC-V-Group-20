@@ -3,7 +3,7 @@
  */
 
 #include "base_testbench.h"
-#include<iostream>
+#include <iostream>
 
 Vdut *top;
 VerilatedVcdC *tfp;

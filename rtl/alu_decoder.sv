@@ -15,8 +15,8 @@ module alu_decoder #(
     always_comb begin
 
         case (alu_op)
-            2'b00: alu_ctrl = 5'b00000;                                       // LW SW (ADD)
-            2'b01: alu_ctrl = 5'b00001;                                       // BEQ (SUB)
+            2'b00: alu_ctrl = 5'b00000;                                     // LW SW (ADD)
+            2'b01: alu_ctrl = 5'b00001;                                     // BEQ (SUB)
             2'b10: begin
                 case (func3)
                     3'b000: begin
