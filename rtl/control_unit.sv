@@ -1,45 +1,41 @@
 module control_unit (
-    /* verilator lint_off UNUSED */
-    input   logic [31:0]                instruction,
-    output  logic [4:0]                 alu_src,  
-    output  logic [2:0]                 imm_src,
-    output  logic [2:0]                 branch_src,
-    output  logic                       mem_write, 
-    output  logic                       op1_src,
-    output  logic                       op2_src,
-    output  logic [1:0]                 wb_src,
-    output  logic                       reg_write
+    input   logic [31:0] instruction,
+    output  logic        reg_write_d,  
+    output  logic [1:0]  result_src_d,
+    output  logic        mem_write_d,
+    output  logic        jump_d,
+    output  logic        branch_d,
+    output  logic [2:0]  alu_control_d,
+    output  logic        alu_src_d,
+    output  logic [1:0]  imm_src_d
 );
 
+    // Extract instruction fields
     logic [6:0] opcode;
     logic [2:0] funct3;
     logic [6:0] funct7;
-    logic [1:0] alu_op;
-    logic [1:0] funct7_5_0; // New signal for the 5th and 0th bits of funct7
 
     assign opcode = instruction[6:0];
     assign funct3 = instruction[14:12];
     assign funct7 = instruction[31:25];
-    assign funct7_5_0 = {funct7[5], funct7[0]}; // Extract the required bits
 
+    // Main Decoder
     main_decoder main_decoder_unit (
         .opcode(opcode),
-        .func3(funct3),
-        .alu_op(alu_op),
-        .imm_src(imm_src),
-        .branch_src(branch_src),
-        .mem_write(mem_write),
-        .op1_src(op1_src),
-        .op2_src(op2_src),
-        .wb_src(wb_src),
-        .reg_write(reg_write)     
+        .reg_write_d(reg_write_d),
+        .result_src_d(result_src_d),
+        .mem_write_d(mem_write_d),
+        .jump_d(jump_d),
+        .branch_d(branch_d),
+        .alu_src_d(alu_src_d),
+        .imm_src_d(imm_src_d)
     );
 
+    // ALU Decoder
     alu_decoder alu_decoder_unit (
-        .func3(funct3),
-        .alu_op(alu_op),
-        .func7_5_0(funct7_5_0),
-        .alu_src(alu_src)
+        .funct3(funct3),
+        .funct7(funct7),
+        .alu_control_d(alu_control_d)
     );
 
 endmodule
