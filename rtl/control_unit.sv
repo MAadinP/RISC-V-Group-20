@@ -1,12 +1,9 @@
-module control_unit #(
-    parameter DATA_WIDTH = 32,
-    parameter ALUCTRL_WIDTH = 5,
-    parameter BRANCH_WIDTH = 5,
-) (
-    input   logic [DATA_WIDTH-1:0]      instruction,
-    output  logic [ALUCTRL_WIDTH-1:0]   alu_ctr,  
+module control_unit (
+    /* verilator lint_off UNUSED */
+    input   logic [31:0]                instruction,
+    output  logic [4:0]                 alu_src,  
     output  logic [2:0]                 imm_src,
-    output  logic [2:0]                 branch_ctr,
+    output  logic [2:0]                 branch_src,
     output  logic                       mem_write, 
     output  logic                       op1_src,
     output  logic                       op2_src,
@@ -27,10 +24,10 @@ module control_unit #(
 
     main_decoder main_decoder_unit (
         .opcode(opcode),
-        .func3(func3),
+        .func3(funct3),
         .alu_op(alu_op),
         .imm_src(imm_src),
-        .branch_ctr(branch_ctr),
+        .branch_src(branch_src),
         .mem_write(mem_write),
         .op1_src(op1_src),
         .op2_src(op2_src),
@@ -42,7 +39,7 @@ module control_unit #(
         .func3(funct3),
         .alu_op(alu_op),
         .func7_5_0(funct7_5_0),
-        .alu_ctrl(alu_ctr)
+        .alu_src(alu_src)
     );
 
 endmodule

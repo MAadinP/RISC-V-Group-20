@@ -1,23 +1,23 @@
 module program_counter #(
-    parameter PC_WIDTH = 32 //using 32 bits, 32I
-) ( //external logic
+    parameter PC_WIDTH = 32 
+) ( 
     input   logic                   clk,
     input   logic                   rst,
     input   logic                   pc_src,
-    input   logic [PC_WIDTH-1:0]    pc_branch, //new in log
-    output  logic [PC_WIDTH-1:0]    pc
+    input   logic [PC_WIDTH-1:0]    pc_branch, 
+    output  logic [PC_WIDTH-1:0]    pc_out,
+    output  logic [PC_WIDTH-1:0]    pc_plus4  
 );
 //internal logic
     logic [PC_WIDTH-1:0] pc_next;
-    logic [PC_WIDTH-1:0] pc_plus4;  //made internal //corr name
 
-    assign pc_plus4 = pc + 4'b0100; //regular increment 
-    assign pc_next = pc_src ? pc_branch : pc_plus4; //mux, sel val is scr  //corr name //doesn't need posedge 
+    assign pc_plus4 = pc_out + 32'd4; 
+    assign pc_next = pc_src ? pc_branch : pc_plus4; 
 
-    always_ff @ (posedge clk) //pos edge synch
+    always_ff @ (posedge clk) 
         if (rst)
-            pc = 32'hBFC00000;  // INSTR MEM STARTS AT THIS VALUE
+            pc_out <= 32'hBFC00000;  
         else
-            pc = pc_next;
+            pc_out <= pc_next;
 
 endmodule

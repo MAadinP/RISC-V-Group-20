@@ -1,4 +1,4 @@
-module reg_file # (
+module reg_file #(
     parameter DATA_WIDTH = 32,
     parameter ADDRESS_WIDTH = 5
 )(
@@ -14,18 +14,19 @@ module reg_file # (
 
 );
     logic [DATA_WIDTH-1:0] register_array [2**ADDRESS_WIDTH-1:0];
-
-    //assign register_array[0] = '0; used during testing
-    initial register_array[0] = '0;
+    
+    initial begin
+        register_array[0] = '0;
+    end
 
     always_comb begin
         data1 = register_array[read_addr1];
         data2 = register_array[read_addr2];
-        a0 = register_array[10];
+        a0 = register_array[5'd10];
     end
 
     always_ff @(negedge clk) begin
-        if(write_en && write_addr != '0)
+        if(write_en && write_addr != 5'd0)
             register_array[write_addr] <= write_data;
     end
 

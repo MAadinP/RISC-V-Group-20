@@ -1,33 +1,29 @@
 module datapath_top #(
     parameter DATA_WIDTH = 32,
-    parameter INSTR_WIDTH = 32,
-    parameter ALUSRC_WIDTH = 5,
-    parameter BRACHSRC_WIDTH = 3
+    parameter ALUSRC_WIDTH = 5
 ) (
     input   logic [DATA_WIDTH-1:0]      pc_in,
     input   logic [DATA_WIDTH-1:0]      pc_plus4_in,
     input   logic [ALUSRC_WIDTH-1:0]    alu_src_in,
-    input   logic [BRACHSRC_WIDTH-1:0]  branch_src_in,
     input   logic                       clk,
-    input   logic                       rst,
     input   logic                       data_src1_in,
     input   logic                       data_src2_in,
-    input   logic                       result_src_in,
+    input   logic [1:0]                 result_src_in,
     input   logic                       reg_write_in,
-    input   logic                       imm_src_in,
+    input   logic [2:0]                 imm_src_in,
     input   logic                       mem_write_in,                       
     output  logic [DATA_WIDTH-1:0]      alu_out,
     output  logic [DATA_WIDTH-1:0]      reg1_out,
     output  logic [DATA_WIDTH-1:0]      reg2_out,
+    output  logic [DATA_WIDTH-1:0]      whole_instr,
     output  logic [DATA_WIDTH-1:0]      a0_out
 );
 
-    wire whole_instr;
-    wire write_back;
-    wire alu_in1;
-    wire alu_in2;
-    wire imm_out;
-    wire mem_out;
+    logic [DATA_WIDTH-1:0]  write_back;
+    logic [DATA_WIDTH-1:0]  alu_in1;
+    logic [DATA_WIDTH-1:0]  alu_in2;
+    logic [DATA_WIDTH-1:0]  imm_out;
+    logic [DATA_WIDTH-1:0]  mem_out;
 
 
     instruction_memory instruction_memory_unit(
@@ -49,7 +45,7 @@ module datapath_top #(
         .write_en(reg_write_in),
         .write_data(write_back),
         .data1(reg1_out),
-        .data1(reg2_out),
+        .data2(reg2_out),
         .a0(a0_out)
     );
 
