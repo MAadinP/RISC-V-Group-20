@@ -15,20 +15,11 @@ module program_counter #(
     always_comb begin
         pc_plus4 = pc_out + 32'd4; 
         pc_next = pc_src ? pc_branch : pc_plus4;
-
-        // Debugging with $display
-        $display("Time: %0t | pc_plus4: %h | pc_src: %b | pc_branch: %h | pc_next: %h",
-                 $time, pc_plus4, pc_src, pc_branch, pc_next);
     end
 
     always_ff @(posedge clk) begin
-        if (rst || ~trigger) begin
-            pc_out <= 32'hBFC00000;
-            $display("Time: %0t | Reset triggered. pc_out set to: %h", $time, pc_out);
-        end else begin
-            pc_out <= pc_next;
-            $display("Time: %0t | PC updated. pc_out: %h", $time, pc_out);
-        end
+        if (rst || ~trigger) pc_out <= 32'hBFC00000;
+        else pc_out <= pc_next;
     end
 
 endmodule

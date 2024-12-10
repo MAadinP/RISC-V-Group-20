@@ -9,8 +9,6 @@ module top (
     // output  logic [31:0] reg1_data_wire,
     // output  logic [31:0] reg2_data_wire,                             
     output  logic [31:0] instruction_wire                              
-
-
 );
 
     // DATAPATH SIGNALS

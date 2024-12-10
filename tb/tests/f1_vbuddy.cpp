@@ -2,7 +2,8 @@
 #include "verilated_vcd_c.h"
 #include "Vtop.h"
 #include "vbuddy.cpp" // include vbuddy code
-#define MAX_SIM_CYC 100000
+
+#define MAX_SIM_CYC 100
 
 int main(int argc, char **argv, char **env)
 {
@@ -25,7 +26,7 @@ int main(int argc, char **argv, char **env)
     top->clk = 1;
     top->rst = 0;
     top->trigger = 1;
-    
+
     // MAIN CLOCK CYCLES
     for (simcyc = 0; simcyc < MAX_SIM_CYC; simcyc++)
     {
@@ -33,17 +34,27 @@ int main(int argc, char **argv, char **env)
         for (tick = 0; tick < 2; tick++)
         {
             tfp->dump(2 * simcyc + tick);
-            top->clk = !top->clk;
-            top->eval();
+            top->clk = !top->clk; // Toggle clock
+            top->eval();         // Evaluate design
         }
 
+        // Update trigger signal
         top->trigger = vbdFlag();
+
+        // Display bar graph (optional)
         vbdBar(top->a0 & 0xFF);
 
-        if (Verilated::gotFinish() || (vbdGetkey() == 'q')) exit(0);
+        // Optional debug output
+        std::cout << "Cycle: " << simcyc << ", Trigger: " << top->trigger 
+                  << ", a0: " << (top->a0 & 0xFF) << std::endl;
+
+        // Exit condition
+        if (Verilated::gotFinish() || (vbdGetkey() == 'q')) break;
     }
 
+    // Cleanup
     vbdClose();
     tfp->close();
+    delete top;
     exit(0);
 }

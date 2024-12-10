@@ -14,6 +14,7 @@ initial begin
     $readmemh("program.hex", instruction_array);
 end
 
+// assign addr = pc[11:0];
 assign instr = {instruction_array[pc+3], instruction_array[pc+2], instruction_array[pc+1], instruction_array[pc]};
 
 endmodule

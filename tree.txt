@@ -1,0 +1,90 @@
+.
+├── README.md
+├── f1.vcd
+├── rtl
+│   ├── alu.sv
+│   ├── alu_decoder.sv
+│   ├── branch_control.sv
+│   ├── control_unit.sv
+│   ├── data_memory.sv
+│   ├── datapath_top.sv
+│   ├── instruction_memory.sv
+│   ├── main_decoder.sv
+│   ├── mux.sv
+│   ├── mux4.sv
+│   ├── program_counter.sv
+│   ├── reg_file.sv
+│   ├── sign_extend.sv
+│   └── top.sv
+├── tb
+│   ├── asm
+│   │   ├── 1_addi_bne.s
+│   │   ├── 2_li_add.s
+│   │   ├── 3_lbu_sb.s
+│   │   ├── 4_jal_ret.s
+│   │   ├── 5_pdf.s
+│   │   └── f1.s
+│   ├── assemble.sh
+│   ├── attach_usb.sh
+│   ├── compile.sh
+│   ├── doit.sh
+│   ├── f1.sh
+│   ├── reference
+│   │   ├── Makefile
+│   │   ├── README.md -> Reference_Prog.md
+│   │   ├── Reference_Prog.md
+│   │   ├── Reference_Prog.pdf
+│   │   ├── format_hex.sh
+│   │   ├── gaussian.mem
+│   │   ├── images
+│   │   │   ├── memory_map.jpg
+│   │   │   └── pdf_listing.jpg
+│   │   ├── noisy.mem
+│   │   ├── pdf.asm
+│   │   ├── pdf.hex
+│   │   ├── pdf.s
+│   │   └── triangle.mem
+│   ├── test_out
+│   │   ├── 1_addi_bne
+│   │   │   ├── data.hex
+│   │   │   ├── program.dis
+│   │   │   ├── program.hex
+│   │   │   └── waveform.vcd
+│   │   ├── 2_li_add
+│   │   │   ├── data.hex
+│   │   │   ├── program.dis
+│   │   │   ├── program.hex
+│   │   │   └── waveform.vcd
+│   │   ├── 3_lbu_sb
+│   │   │   ├── data.hex
+│   │   │   ├── program.dis
+│   │   │   ├── program.hex
+│   │   │   └── waveform.vcd
+│   │   ├── 4_jal_ret
+│   │   │   ├── data.hex
+│   │   │   ├── program.dis
+│   │   │   ├── program.hex
+│   │   │   └── waveform.vcd
+│   │   └── 5_pdf
+│   │       ├── data.hex
+│   │       ├── program.dis
+│   │       ├── program.hex
+│   │       └── waveform.vcd
+│   ├── tests
+│   │   ├── base_testbench.h
+│   │   ├── cpu_testbench.h
+│   │   ├── f1_vbuddy.cpp
+│   │   ├── instruction_memory_tb.cpp
+│   │   ├── main_decoder_tb.cpp
+│   │   ├── mux_tb.cpp
+│   │   ├── program.mem
+│   │   ├── reg_file_tb.cpp
+│   │   ├── testbench.h
+│   │   └── verify.cpp
+│   ├── vbuddy.cfg
+│   └── vbuddy.cpp
+├── tree.txt
+├── vbuddy.cfg
+└── vbuddy.cpp
+
+12 directories, 75 files

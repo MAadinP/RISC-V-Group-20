@@ -7,7 +7,7 @@
 #include "verilated_vcd_c.h"
 #include "gtest/gtest.h"
 
-#define MAX_SIM_CYCLES 50
+#define MAX_SIM_CYCLES 10000
 
 class CpuTestbench : public ::testing::Test
 {
@@ -61,13 +61,13 @@ public:
             }
             ticks_++;
 
-            std::cout <<"a0: " << top_->a0 << std::endl;
+            // std::cout <<"a0: " << top_->a0 << std::endl;
             // std::cout << "pc_out_wire: " << std::hex <<  top_->pc_out_wire << std::endl;
             // std::cout << "pc_plus4_wire: " << std::hex << top_->pc_plus4_wire << std::endl;                                
             // std::cout << "alu_out_wire: " << std::hex << top_->alu_out_wire << std::endl;           
             // std::cout << "reg1_data_wire: " << std::hex << top_->reg1_data_wire << std::endl;
             // std::cout << "reg2_data_wire: " << std::hex << top_->reg2_data_wire << std::endl;                              
-            std::cout << "instruction_wire: " << std::hex << top_->instruction_wire << std::endl;                              
+            // std::cout << "instruction_wire: " << std::hex << top_->instruction_wire << std::endl;                              
 
 
 

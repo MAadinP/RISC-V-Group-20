@@ -15,8 +15,8 @@ module alu_decoder #(
     always_comb begin
 
         case (alu_op)
-            2'b00: alu_src = 5'b00000;                                     // LW SW (ADD)
-            2'b01: alu_src = 5'b00001;                                     // BEQ (SUB)
+            2'b00: alu_src = 5'b00000;                                     // LW SW B-TYPE (ADD)
+            2'b01: alu_src = 5'b00001;                                     
             2'b10: begin
                 case (func3)
                     3'b000: begin
@@ -48,6 +48,24 @@ module alu_decoder #(
                     3'b110: alu_src = (is_multiplication) ? 5'b10000 : 5'b01000;   // REM | OR
                     3'b111: alu_src = (is_multiplication) ? 5'b10001 : 5'b01001;   // REMU | AND
                     default: alu_src = 5'b00000;                             
+                endcase
+            end
+            2'b11: begin
+                case(func3)
+                    3'b000: alu_src = 5'b00000; // ADDI
+                    3'b100: alu_src = 5'b00101; // XORI
+                    3'b110: alu_src = 5'b01000; // ORI
+                    3'b111: alu_src = 5'b01001; // ANDI
+                    3'b001: alu_src = 5'b00010; // SLLI
+                    3'b101: begin                                                   
+                        case(func7_5_0)
+                            2'b00: alu_src =  5'b00110;     // SRLI
+                            2'b10: alu_src = 5'b00111;      // SRAI
+                            default: alu_src =  5'b00110;   // DEFAULT = SRLI
+                        endcase
+                    end
+                    3'b010: alu_src = 5'b00011;         // SLTI
+                    3'b011: alu_src = 5'b00100;         // SLTIU
                 endcase
             end
             default: alu_src = 5'b00000;                                     

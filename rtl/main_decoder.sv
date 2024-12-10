@@ -44,7 +44,7 @@ module main_decoder (
                 wb_src = 2'b01;
                 reg_write = 1; 
                 mem_write = 0; 
-                alu_op = 2'b10;
+                alu_op = 2'b11;
                 imm_src = 3'b000;
                 branch_src = 3'b010;
             end
@@ -64,7 +64,7 @@ module main_decoder (
                 wb_src = 2'b00;
                 reg_write = 0; 
                 mem_write = 0; 
-                alu_op = 2'b01; 
+                alu_op = 2'b00; 
                 imm_src = 3'b010;
                 case (func3)
                     3'h0: branch_src = 3'b000;
