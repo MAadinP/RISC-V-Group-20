@@ -1,11 +1,11 @@
 module main_decoder (
-    input  logic [6:0] opcode,              
-    output logic [2:0] imm_sel,             
-    output logic       op1sel,              
-    output logic       op2sel,              
-    output logic [3:0] read_write,          
-    output logic [2:0] branch_jump,         
-    output logic       reg_write_en         
+    input  logic [6:0] opcode,               // 7-bit opcode input
+    output logic [2:0] imm_sel,              // Immediate selection
+    output logic       op1sel,               // Operand 1 selection
+    output logic       op2sel,               // Operand 2 selection
+    output logic [3:0] read_write,           // Read/Write control
+    output logic [2:0] branch_jump,         // Branch/Jump control
+    output logic       reg_write_en         // Register write enable
 );
 
     always_comb begin
@@ -50,6 +50,15 @@ module main_decoder (
                 reg_write_en = 1;
                 imm_sel = 3'b011; 
                 branch_jump = 3'b010; 
+            end
+            default: begin
+                // Handle unsupported opcodes (do nothing)
+                imm_sel = 3'b000;
+                op1sel = 0;
+                op2sel = 0;
+                read_write = 4'b0000;
+                branch_jump = 3'b000;
+                reg_write_en = 0;
             end
         endcase
     end
