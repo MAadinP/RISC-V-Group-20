@@ -1,7 +1,16 @@
 module top (
     input   logic               clk,
     input   logic               rst,
-    output  logic [31:0]        a0
+    input   logic               trigger,
+    output  logic [31:0]        a0,
+    // output  logic [31:0] pc_out_wire,
+    // output  logic [31:0] pc_plus4_wire,                               
+    // output  logic [31:0] alu_out_wire,          
+    // output  logic [31:0] reg1_data_wire,
+    // output  logic [31:0] reg2_data_wire,                             
+    output  logic [31:0] instruction_wire                              
+
+
 );
 
     // DATAPATH SIGNALS
@@ -10,7 +19,7 @@ module top (
     logic [31:0] alu_out_wire;           
     logic [31:0] reg1_data_wire;
     logic [31:0] reg2_data_wire;                              
-    logic [31:0] instruction_wire;                              
+    // logic [31:0] instruction_wire;                              
 
     // CONTROL SIGNALS
     logic        pc_src_wire;                                
@@ -27,6 +36,7 @@ module top (
     program_counter pc (
         .clk(clk),
         .rst(rst),
+        .trigger(trigger),
         .pc_src(pc_src_wire),
         .pc_branch(alu_out_wire),
         .pc_out(pc_out_wire),
