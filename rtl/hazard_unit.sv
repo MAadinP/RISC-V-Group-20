@@ -1,13 +1,12 @@
 module hazard_unit #(
-    parameter DATA_LENGTH = 32,
-    parameter REG_LENGTH = 5
+    parameter REG_WIDTH = 5
 ) (
     // Forwarding
-    input  logic [REG_LENGTH-1:0]   rs1,
-    input  logic [REG_LENGTH-1:0]   rs2,
-    input  logic [REG_LENGTH-1:0]   rd_w,           // From Writeback Stage
+    input  logic [REG_WIDTH-1:0]   rs1,
+    input  logic [REG_WIDTH-1:0]   rs2,
+    input  logic [REG_WIDTH-1:0]   rd_w,           // From Writeback Stage
     input  logic                    reg_write_w,
-    input  logic [REG_LENGTH-1:0]   rd_m,           // From Memory Access Stage
+    input  logic [REG_WIDTH-1:0]   rd_m,           // From Memory Access Stage
     input  logic                    reg_write_m,
     output logic [1:0]              forward_a,      // Multiplexer Control Signals
     output logic [1:0]              forward_b,
@@ -15,10 +14,11 @@ module hazard_unit #(
     // Stalls
     input  logic [1:0]              result_src,
     input  logic [4:0]              rd_out_id_ex,
-    input  logic [2:0]              branch_jump,
+    input  logic                    pc_src,
     output logic                    stall_f,
     output logic                    stall_d,
-    output logic                    flush_e
+    output logic                    flush_e,
+    output logic                    flush_d
 
 );
 
@@ -48,11 +48,15 @@ always_comb begin
     lw_stall = (result_src == '0) & ((rs1 == rd_out_id_ex) || (rs2 == rd_out_id_ex));
     stall_f = stall_d = flush_e = lw_stall;
 
-    branch_stall = ~(branch_jump == 3'b010);
+    branch_stall = (pc_src == '1);
 
     stall = branch_stall || lw_stall;
 
     stall_f = stall_d = flush_e = stall;
+
+    flush_d = (branch_stall;)
+
+
 
 end
 

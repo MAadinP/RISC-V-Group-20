@@ -1,56 +1,135 @@
 module main_decoder (
-    input  logic [6:0] opcode,              
-    output logic [2:0] imm_sel,             
-    output logic       op1sel,              
-    output logic       op2sel,              
-    output logic [3:0] read_write,          
-    output logic [2:0] branch_jump,         
-    output logic       reg_write_en         
+    input   logic [6:0] opcode,
+    input   logic [2:0] func3,
+    output  logic [1:0] alu_op,
+    output  logic [2:0] imm_src,
+    output  logic [2:0] branch_src,
+    output  logic       mem_write, 
+    output  logic [1:0] alu_mux_src,
+    output  logic [1:0] wb_src,
+    output  logic       reg_write
 );
 
-    always_comb begin
-        imm_sel = 3'b000;
-        op1sel = 0;
-        op2sel = 0;
-        read_write = 4'b0000;
-        branch_jump = 3'b000;
-        reg_write_en = 0;
+    logic op1_src, op2_src;
 
-        // Opcode-based control signal generation
+    always_comb begin
         case (opcode)
             7'b0110011: begin // R-Type
-                reg_write_en = 1; // Enable write-back
-                op1sel = 0;       
-                op2sel = 0;       
+                op1_src = 0;
+                op2_src = 0;
+                alu_mux_src = 2'b00;
+                wb_src = 2'b01;
+                reg_write = 1; 
+                mem_write = 0; 
+                alu_op = 2'b10; 
+                imm_src = 3'b000;
+                branch_src = 3'b010;
             end
-            7'b0000011: begin // I-Type (Load)
-                reg_write_en = 1;
-                imm_sel = 3'b000; 
-                op1sel = 0;       
-                op2sel = 1;
-                read_write = 4'b0001; 
+            7'b0000011: begin // I-Type (Load) - Contains Unnsigned extend
+                op1_src = 0;
+                op2_src = 1;
+                wb_src = 2'b11;
+                reg_write = 1; 
+                mem_write = 0; 
+                alu_op = 2'b00;
+                case(func3)
+                    3'h3: imm_src = 3'b110;
+                    3'h5: imm_src = 3'b101;
+                    3'h1: imm_src = 3'b101;
+                    default: imm_src = 3'b000; 
+                endcase
+                branch_src = 3'b010;
             end
-            7'b0010011: begin // I-Type (ALU)
-                reg_write_en = 1;
-                imm_sel = 3'b000;
-                op1sel = 0;       
-                op2sel = 1;       
+            7'b0010011: begin // I-Type (ALU) - Contains Unnsigned extend
+                op1_src = 0;
+                op2_src = 1;
+                wb_src = 2'b01;
+                reg_write = 1; 
+                mem_write = 0; 
+                alu_op = 2'b10;
+                imm_src = 3'b000;
+                branch_src = 3'b010;
             end
             7'b0100011: begin // S-Type (Store)
-                imm_sel = 3'b001; 
-                op1sel = 0;       
-                op2sel = 1;       
-                read_write = 4'b0010; 
+                op1_src = 0;
+                op2_src = 1;
+                wb_src = 2'b00;
+                reg_write = 0; 
+                mem_write = 1; 
+                alu_op = 2'b00;
+                imm_src = 3'b001;
+                branch_src = 3'b010;
             end
-            7'b1100011: begin // B-Type (Branch)
-                imm_sel = 3'b010; 
-                branch_jump = 3'b001; 
+            7'b1100011: begin // B-Type (Branch) - Contains Unnsigned extend
+                op1_src = 1;
+                op2_src = 1;
+                wb_src = 2'b00;
+                reg_write = 0; 
+                mem_write = 0; 
+                alu_op = 2'b01; 
+                imm_src = 3'b010;
+                case (func3)
+                    3'h0: branch_src = 3'b000;
+                    3'h1: branch_src = 3'b001;
+                    3'h4: branch_src = 3'b100;
+                    3'h5: branch_src = 3'b101;
+                    3'h6: branch_src = 3'b111;
+                    3'h7: branch_src = 3'b110;
+                    default: branch_src = 3'b010;
+                endcase
             end
-            7'b1101111: begin // J-Type (Jump)
-                reg_write_en = 1;
-                imm_sel = 3'b011; 
-                branch_jump = 3'b010; 
+            7'b1101111: begin // JAL
+                op1_src = 1;
+                op2_src = 1;
+                wb_src = 2'b00;
+                reg_write = 1; 
+                mem_write = 0; 
+                alu_op = 2'b00; 
+                imm_src = 3'b100;
+                branch_src = 3'b011;
+            end
+            7'b1100111: begin // JALR
+                op1_src = 0;
+                op2_src = 1;
+                wb_src = 2'b00;
+                reg_write = 1; 
+                mem_write = 0; 
+                alu_op = 2'b00; 
+                imm_src = 3'b100;
+                branch_src = 3'b011;
+            end
+            7'b0110111: begin // U-Type (LUI)
+                op1_src = 0;
+                op2_src = 0;
+                wb_src = 2'b10;
+                reg_write = 1; 
+                mem_write = 0; 
+                alu_op = 2'b00; 
+                imm_src = 3'b011;
+                branch_src = 3'b010;
+            end
+            7'b0010111: begin // U-Type (AUIPC)
+                op1_src = 1;
+                op2_src = 1;
+                wb_src = 2'b01;
+                reg_write = 1; 
+                mem_write = 0; 
+                alu_op = 2'b00; 
+                imm_src = 3'b011;
+                branch_src = 3'b010;
+            end
+            default: begin
+                op1_src = 0;
+                op2_src = 0;
+                wb_src = 2'b00;
+                reg_write = 0; 
+                mem_write = 0; 
+                alu_op = 2'b01; 
+                imm_src = 3'b000;           
             end
         endcase
+
+        alu_mux_src = {op1_src, op2_src};
+
     end
 endmodule

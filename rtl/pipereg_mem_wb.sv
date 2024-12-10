@@ -1,17 +1,17 @@
 module MEM_WB #(
-    parameter DATA_LENGTH = 32,
+    parameter DATA_WIDTH = 32,
     parameter PC_WIDTH = 32,
-    parameter REG_LENGTH = 5
+    parameter REG_WIDTH = 5
 ) (
     input  logic                    clk,
     input  logic                    rst,
-    input  logic [DATA_LENGTH-1:0]  alu_res_in,
-    input  logic [DATA_LENGTH-1:0]  data_in,
-    input  logic [REG_LENGTH-1:0]   rd_in,
+    input  logic [DATA_WIDTH-1:0]  alu_res_in,
+    input  logic [DATA_WIDTH-1:0]  data_in,
+    input  logic [REG_WIDTH-1:0]   rd_in,
     input  logic [PC_WIDTH-1:0]     pc_plus4_in,
-    output logic [DATA_LENGTH-1:0]  alu_res_out,
-    output logic [DATA_LENGTH-1:0]  data_out,
-    output logic [REG_LENGTH-1:0]   rd_out,
+    output logic [DATA_WIDTH-1:0]  alu_res_out,
+    output logic [DATA_WIDTH-1:0]  data_out,
+    output logic [REG_WIDTH-1:0]   rd_out,
     output logic [PC_WIDTH-1:0]     pc_plus4_out
 
     // Control Unit Signals
