@@ -1,62 +1,27 @@
 main:
-    # initialise the light states in data memory
-    li t0, 0x00100000           # base address of data memory
-    sw zero, 0(t0)              # turn off all lights intitally
 
-    #turn on light1
-    li t1, 0x1                  # state of light1
-    sw t1, 0(t0)                # store data in memory
-    jal ra, delay               # delay before next light
+    LI a0, 0x00                 # Initialize LED state (all off)
+    LI t0, 0xFF                 # Value when all LEDs are on (8 LEDs)
 
-    # turn on light2
-    li t1, 0x3                  # light 1 and 2 state
-    sw t1, 0(t0)                # store state in memory
-    jal ra, delay               # delay before next light
+loop:
 
-    # turn on light 3           
-    li t1, 0x7                  # light 1/2/3 state
-    sw t1, 0(t0)                # store state in memort
-    jal ra, delay               # delay before reset
+    JAL ra, delay               # Delay before updating state
+    BEQ a0, t0, reset           # If all LEDs are on, reset to 0
 
-    # turn on light 4
-    li t1, 0xF                 #light 1/2/3/4 state
-    sw t1, 0(t0)
-    jal ra, delay
+    # Update LED state (shift left and add 1 to turn on next LED)
+    SLL a0, a0, 1              
+    ADDI a0, a0, 1              
+    J loop                      # Repeat the loop
 
-    # turn on light 5
-    li t1, 0x1F                 #light 1/2/3/4 state
-    sw t1, 0(t0)
-    jal ra, delay
-
-    # turn on light 6
-    li t1, 0x43                #light 1/2/3/4 state
-    sw t1, 0(t0)
-    jal ra, delay
-
-    # turn on light 7
-    li t1, 0x7F                 #light 1/2/3/4 state
-    sw t1, 0(t0)
-    jal ra, delay
-
-    # turn on light 8
-    li t1, 0xFF                 #light 1/2/3/4 state
-    sw t1, 0(t0)
-    jal ra, delay
+reset:
+    LI a0, 0x00                 # Reset all LEDs 
+    J loop                      # Restart the sequence
 
 
-    # reset sequence (loop back to start)
-    j main                      # restart sequence
-
-# delay loop
 delay:
-    li t2, 0xFFF           # adjust delay as needed
+    LI t2, 10                   # Adjust delay here
 
 delay_loop:
-    addi t2, t2, -1             # decrement counter
-    bnez t2, delay_loop         # loop until counter reaches 0
-    ret                         # return to main program
-
-    .data
-    .org 0x00100             	# start of data memory
-
-    .word 0                     # light stages (default: all of)
+    ADDI t2, t2, -1             # Decrement counter
+    BNEZ t2, delay_loop         # Loop until counter reaches 0
+    RET                         # Return to main program

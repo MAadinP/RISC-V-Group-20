@@ -10,7 +10,7 @@ module instruction_memory #(
 logic [DATA_WIDTH-1:0] instruction_array [2047:0];//memory goes for 0xBFC00000 to 0xBFC00FFF, this is my way of cheating it
 
 initial begin
-    $display("Loading rom.");
+    $display("Loading instructions");
     $readmemh("program.hex", instruction_array);
 end
 
