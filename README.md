@@ -23,20 +23,8 @@
 
 <br>
 
+### How to Run Tests
 
-### Breakdown Of Tasks
-
-
-<div align = "center">
-
-| Tasks    |      Aadin      |  Ethan | Darryl | Dawud | Aidan |
-|:----------:|:-------------:|:------:|:------:|:-----:|:-----:|
-| col 1 is |  left-aligned | $1600 ||||
-| col 2 is |    centered   |   $12 ||||
-| col 3 is | right-aligned |    $1 ||||
-
-
-</div>
 
 
 <br>
@@ -75,7 +63,11 @@
 - [data_memory.sv](rtl/data_memory.sv)
 - [_top.sv_](rtl/top.sv) 
 
+```.txt
 
+tree.txt
+
+```
 
 <br>
 
