@@ -1,0 +1,133 @@
+module cache#(
+    parameter MEMORY_WIDTH = 32, //
+    parameter DATA_WIDTH   = 32, //
+    parameter TAG_LENGTH   = 21, //
+    parameter SET_LENGTH   = 9,
+    parameter SET_WAYS     = 2, //512 SETS OF 2
+    parameter CACHE_WIDTH  = 65, //{64}V + {63}D + {62}LR + {61:32}30 addy + {31:0} 32 data //61:32 = set{40:32} tag {61:41}
+    parameter SET_NO       = 512
+
+    //paramter  SET_NO_LOG = 8
+) (
+    input   logic                       clk,
+    input   logic [MEMORY_WIDTH-1:0]    mem_address, // 
+    input   logic                       write_en,    // high when the processor writes to cache, low otherwise
+    input   logic [DATA_WIDTH-1:0]      cpu_data,    // data straight from cpu for store word
+    input   logic [DATA_WIDTH-1:0]      new_data,    // data from DRAM for normal misses
+    output  logic                       hit, //ignore any output if hit == 0
+    output  logic [DATA_WIDTH-1:0]      array_data, //output data for a hit (successful read)
+    output  logic [MEMORY_WIDTH-1:0]    dirty_add,
+    output  logic [DATA_WIDTH-1:0]      dirty_data,
+    output  logic                       dirty_en,  //tells dram to write ddata at dadd
+    output  logic [MEMORY_WIDTH-1:0]    load_radd  //always req dram data from m_a, even if hit - reduces delay in case of miss - alt impls
+);
+    logic [TAG_LENGTH-1:0]      inp_tag = mem_address[MEMORY_WIDTH-1:11];
+    logic [TAG_LENGTH-1:0]      w0_tag;//sab
+    logic [TAG_LENGTH-1:0]      w1_tag;//from read
+    logic                       v0;//comes from read, edited in load
+    logic                       v1;//saa
+    
+    logic [SET_LENGTH:0]        array_add;
+    logic [SET_LENGTH:0]        atwin_add;
+    logic [SET_LENGTH-1:0]      set = mem_address[SET_LENGTH+1:2];//SET_LENGTH+(2-1):(0+2) Eliminating bottom 2 bits
+
+    logic                       dirty_bit;
+    logic [SET_LENGTH:0]        rep_add;    
+    logic [SET_LENGTH:0]        rtwin_add;         
+    logic [CACHE_WIDTH-1:0]     cache[SET_WAYS*SET_NO-1:0]; //V + D + LR + 30 addy + 32 data //127
+    logic                       lru0 = cache[SET_WAYS*set][62];
+    
+    logic                       h0;
+    logic                       h1;
+
+    initial begin
+        $display("Initialising cache...");
+        for (int i = 0; i < SET_WAYS*SET_NO; i++) begin
+            cache[i] = '0;
+        end
+        $display("Cache initialised");
+    end
+//
+    assign w0_tag = cache [SET_WAYS*set][61:41]; 
+    assign w1_tag = cache [1+SET_WAYS*set][61:41];
+    assign v0 = cache [SET_WAYS*set][CACHE_WIDTH-1]; 
+    assign v1 = cache [1+SET_WAYS*set][CACHE_WIDTH-1];
+    assign load_radd = mem_address; //FEEDS INTO A DIFFERENT PORT ON DRAM
+//hit
+    always_comb begin
+        if ((inp_tag == w0_tag) && (v0)) begin  //hit taken out instantly
+            h0 = 1;
+        end else begin
+            h0 = 0;
+        end
+        if ((inp_tag == w1_tag) && (v1)) begin
+            h1 = 1;
+        end else begin
+            h1 = 0;
+        end
+        if (h0 || h1)begin
+            hit = 1;
+        end else begin
+            hit = 0;
+        end
+    end
+
+//read
+    always_comb begin
+        if(hit)begin
+            array_add = SET_WAYS*set + !h0;
+            atwin_add = SET_WAYS*set + h0;
+            array_data = cache [array_add][DATA_WIDTH-1:0];
+        end
+    end
+    always_ff@(posedge clk) begin
+        if(hit && !write_en) begin
+            cache [atwin_add][62] <= 0; //lru
+            cache [array_add][62] <= 1; //lru
+            
+        end
+    end
+
+//  write with hit
+    always_ff@(posedge clk) begin
+        if (hit && write_en) begin
+            cache [atwin_add][62] <= 0;
+            cache [array_add][62] <= 1; //lru
+            cache [array_add][63] <= 1; // dirty
+            cache [array_add][CACHE_WIDTH-1] <= 1; //valid fringe case useful
+            cache [array_add][31:0] <= cpu_data;
+        end else if (!hit && write_en) begin 
+            cache [rtwin_add][62] <= 0;//lru
+            cache [rep_add][62] <= 1; //lru
+            cache [rep_add][63] <= 1; //dirty
+            cache [rep_add][CACHE_WIDTH-1] <= 1;//valid
+            cache [rep_add][61:32] <= mem_address[31:2];
+            cache [rep_add][31:0] <= cpu_data;
+        end
+    end
+
+// load   
+    always_comb begin
+        rep_add = SET_WAYS*set + lru0;//both are 0 at init, so top in set will be default
+        rtwin_add = SET_WAYS*set + !lru0;
+        dirty_bit = cache[rep_add][63];
+        if(dirty_bit) begin
+            dirty_add = {cache[rep_add][61:32],2'b00};
+            dirty_data = cache[rep_add][31:0];
+            dirty_en = 1;
+        end else begin
+            dirty_en = 0;
+        end
+    end
+
+    always_ff@(posedge clk) begin
+        if (!hit && !write_en) begin
+            cache [rtwin_add][62] <= 0;//lru
+            cache [rep_add][62] <= 1; //lru
+            cache [rep_add][63] <= 0;
+            cache [rep_add][CACHE_WIDTH-1] <= 1;//valid
+            cache [rep_add][61:32] <= mem_address[31:2];
+            cache [rep_add][31:0] <= new_data;
+        end
+    end
+endmodule
