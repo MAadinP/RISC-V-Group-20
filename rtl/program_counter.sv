@@ -3,6 +3,7 @@ module program_counter #(
 ) ( //external logic
     input   logic                   clk,
     input   logic                   rst,
+    input   logic                   en,
     input   logic                   pc_src,
     input   logic [PC_WIDTH-1:0]    pc_branch, //new in log
     output  logic [PC_WIDTH-1:0]    pc
@@ -16,8 +17,8 @@ module program_counter #(
 
     always_ff @ (posedge clk) //pos edge synch
         if (rst)
-            pc = 32'hBFC00000;  // INSTR MEM STARTS AT THIS VALUE
+            pc <= 32'hBFC00000;  // INSTR MEM STARTS AT THIS VALUE
         else
-            pc = pc_next;
+            pc <= (en) ? pc_next : pc;
 
 endmodule

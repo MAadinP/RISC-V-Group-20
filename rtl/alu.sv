@@ -6,11 +6,8 @@ module alu #(
     input   logic [DATA_WIDTH-1:0]      alu_op1,
     input   logic [DATA_WIDTH-1:0]      alu_op2,
     output  logic [DATA_WIDTH-1:0]      alu_out,
-    output  logic                       zero,
 );
     always_comb begin
-
-    zero = (alu_op1-alu_op2 == 0) ? 1 : 0;
 
     case (alu_ctr)
         5'b00000: alu_out = alu_op1 + alu_op2;                                                  // ADD

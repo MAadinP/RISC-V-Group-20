@@ -7,7 +7,8 @@ module control_unit (
     output  logic                       mem_write, 
     output  logic [1:0]                 alu_mux_src,
     output  logic [1:0]                 wb_src,
-    output  logic                       reg_write
+    output  logic                       reg_write,
+    output  logic                       branch_valid
 );
 
     logic [6:0] opcode;
@@ -30,7 +31,8 @@ module control_unit (
         .mem_write(mem_write),
         .alu_mux_src(alu_mux_src),
         .wb_src(wb_src),
-        .reg_write(reg_write)     
+        .reg_write(reg_write),
+        .branch_valid(branch_valid)     
     );
 
     alu_decoder alu_decoder_unit (

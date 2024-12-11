@@ -5,13 +5,13 @@ module MEM_WB #(
 ) (
     input  logic                    clk,
     input  logic                    rst,
-    input  logic [DATA_WIDTH-1:0]  alu_res_in,
-    input  logic [DATA_WIDTH-1:0]  data_in,
-    input  logic [REG_WIDTH-1:0]   rd_in,
+    input  logic [DATA_WIDTH-1:0]   alu_res_in,
+    input  logic [DATA_WIDTH-1:0]   data_in,
+    input  logic [REG_WIDTH-1:0]    rd_in,
     input  logic [PC_WIDTH-1:0]     pc_plus4_in,
-    output logic [DATA_WIDTH-1:0]  alu_res_out,
-    output logic [DATA_WIDTH-1:0]  data_out,
-    output logic [REG_WIDTH-1:0]   rd_out,
+    output logic [DATA_WIDTH-1:0]   alu_res_out,
+    output logic [DATA_WIDTH-1:0]   data_out,
+    output logic [REG_WIDTH-1:0]    rd_out,
     output logic [PC_WIDTH-1:0]     pc_plus4_out
 
     // Control Unit Signals

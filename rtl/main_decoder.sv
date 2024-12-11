@@ -7,7 +7,8 @@ module main_decoder (
     output  logic       mem_write, 
     output  logic [1:0] alu_mux_src,
     output  logic [1:0] wb_src,
-    output  logic       reg_write
+    output  logic       reg_write,
+    output  logic       branch_valid
 );
 
     logic op1_src, op2_src;
@@ -24,6 +25,7 @@ module main_decoder (
                 alu_op = 2'b10; 
                 imm_src = 3'b000;
                 branch_src = 3'b010;
+                branch_valid = 0;
             end
             7'b0000011: begin // I-Type (Load) - Contains Unnsigned extend
                 op1_src = 0;
@@ -39,6 +41,7 @@ module main_decoder (
                     default: imm_src = 3'b000; 
                 endcase
                 branch_src = 3'b010;
+                branch_valid = 0;
             end
             7'b0010011: begin // I-Type (ALU) - Contains Unnsigned extend
                 op1_src = 0;
@@ -49,6 +52,7 @@ module main_decoder (
                 alu_op = 2'b10;
                 imm_src = 3'b000;
                 branch_src = 3'b010;
+                branch_valid = 0;
             end
             7'b0100011: begin // S-Type (Store)
                 op1_src = 0;
@@ -59,6 +63,7 @@ module main_decoder (
                 alu_op = 2'b00;
                 imm_src = 3'b001;
                 branch_src = 3'b010;
+                branch_valid = 0;
             end
             7'b1100011: begin // B-Type (Branch) - Contains Unnsigned extend
                 op1_src = 1;
@@ -77,6 +82,7 @@ module main_decoder (
                     3'h7: branch_src = 3'b110;
                     default: branch_src = 3'b010;
                 endcase
+                branch_valid = 1;
             end
             7'b1101111: begin // JAL
                 op1_src = 1;
@@ -87,6 +93,7 @@ module main_decoder (
                 alu_op = 2'b00; 
                 imm_src = 3'b100;
                 branch_src = 3'b011;
+                branch_valid = 0;
             end
             7'b1100111: begin // JALR
                 op1_src = 0;
@@ -97,6 +104,7 @@ module main_decoder (
                 alu_op = 2'b00; 
                 imm_src = 3'b100;
                 branch_src = 3'b011;
+                branch_valid = 0;
             end
             7'b0110111: begin // U-Type (LUI)
                 op1_src = 0;
@@ -107,6 +115,7 @@ module main_decoder (
                 alu_op = 2'b00; 
                 imm_src = 3'b011;
                 branch_src = 3'b010;
+                branch_valid = 0;
             end
             7'b0010111: begin // U-Type (AUIPC)
                 op1_src = 1;
@@ -117,6 +126,7 @@ module main_decoder (
                 alu_op = 2'b00; 
                 imm_src = 3'b011;
                 branch_src = 3'b010;
+                branch_valid = 0;
             end
             default: begin
                 op1_src = 0;
@@ -125,7 +135,8 @@ module main_decoder (
                 reg_write = 0; 
                 mem_write = 0; 
                 alu_op = 2'b01; 
-                imm_src = 3'b000;           
+                imm_src = 3'b000;      
+                branch_valid = 0;     
             end
         endcase
 

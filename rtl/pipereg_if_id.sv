@@ -5,10 +5,11 @@ module IF_ID #(
     input  logic                    clk,
     input  logic                    rst,
     input  logic                    en,
-    input  logic [DATA_WIDTH-1:0]  ins_in,
+    input  logic                    clr,        // Flush
+    input  logic [DATA_WIDTH-1:0]   ins_in,
     input  logic [PC_WIDTH-1:0]     pc_in,
     input  logic [PC_WIDTH-1:0]     pc_plus4_in,
-    output logic [DATA_WIDTH-1:0]  ins_out,
+    output logic [DATA_WIDTH-1:0]   ins_out,
     output logic [PC_WIDTH-1:0]     pc_out,
     output logic [PC_WIDTH-1:0]     pc_plus4_out
 );
