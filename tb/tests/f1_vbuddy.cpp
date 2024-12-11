@@ -3,7 +3,7 @@
 #include "Vtop.h"
 #include "vbuddy.cpp" // include vbuddy code
 
-#define MAX_SIM_CYC 100
+#define MAX_SIM_CYC 10000
 
 int main(int argc, char **argv, char **env)
 {
@@ -38,6 +38,7 @@ int main(int argc, char **argv, char **env)
             top->eval();         // Evaluate design
         }
 
+        vbdCycle(top->clk);
         // Update trigger signal
         top->trigger = vbdFlag();
 

@@ -59,17 +59,7 @@ public:
                 tfp_->dump(2 * ticks_ + clk);
                 top_->clk = !top_->clk;
             }
-            ticks_++;
-
-            // std::cout <<"a0: " << top_->a0 << std::endl;
-            // std::cout << "pc_out_wire: " << std::hex <<  top_->pc_out_wire << std::endl;
-            // std::cout << "pc_plus4_wire: " << std::hex << top_->pc_plus4_wire << std::endl;                                
-            // std::cout << "alu_out_wire: " << std::hex << top_->alu_out_wire << std::endl;           
-            // std::cout << "reg1_data_wire: " << std::hex << top_->reg1_data_wire << std::endl;
-            // std::cout << "reg2_data_wire: " << std::hex << top_->reg2_data_wire << std::endl;                              
-            // std::cout << "instruction_wire: " << std::hex << top_->instruction_wire << std::endl;                              
-
-
+            ticks_++;                      
 
             if (Verilated::gotFinish())
             {
