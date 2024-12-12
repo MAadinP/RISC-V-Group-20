@@ -6,8 +6,6 @@ module cache#(
     parameter SET_WAYS     = 2, //512 SETS OF 2
     parameter CACHE_WIDTH  = 65, //{64}V + {63}D + {62}LR + {61:32}30 addy + {31:0} 32 data //61:32 = set{40:32} tag {61:41}
     parameter SET_NO       = 512
-
-    //paramter  SET_NO_LOG = 8
 ) (
     input   logic                       clk,
     input   logic [2:0]                 funct3,
@@ -78,7 +76,41 @@ module cache#(
         if(hit)begin
             array_add = SET_WAYS*set + !h0;
             atwin_add = SET_WAYS*set + h0;
-            array_data = cache [array_add][DATA_WIDTH-1:0];
+            case(funct3)
+                3'b000: begin
+                    case(mem_address[1:0])
+                        2'b00: array_data = {24{cache[array_add][7]},cache [array_add][7:0]};
+                        2'b01: array_data = {24{cache[array_add][15]},cache [array_add][15:8]};
+                        2'b10: array_data = {24{cache[array_add][23]},cache [array_add][23:16]};
+                        2'b11: array_data = {24{cache[array_add][31]},cache [array_add][31:24]};
+                        default: array_data = {24{cache[array_add][7]},cache [array_add][7:0]};
+                    endcase
+                end
+                3'b001: begin
+                    case(mem_address[1:0])
+                        2'b00: array_data = {16{cache[array_add][15]},cache [array_add][15:0]};
+                        2'b10: array_data = {16{cache[array_add][31]},cache [array_add][31:16]};
+                        default: array_data = {16{cache[array_add][15]},cache [array_add][15:0]};
+                    endcase
+                end
+                3'b100: begin
+                    case(mem_address[1:0])
+                        2'b00: array_data = {24{1'b0},cache [array_add][7:0]};
+                        2'b01: array_data = {24{1'b0},cache [array_add][15:8]};
+                        2'b10: array_data = {24{1'b0},cache [array_add][23:16]};
+                        2'b11: array_data = {24{1'b0},cache [array_add][31:24]};
+                        default: array_data = {24{1'b0},cache [array_add][7:0]};
+                    endcase
+                end
+                3'b101: begin
+                    case(mem_address[1:0])
+                        2'b00: array_data = {16{1'b0},cache [array_add][15:0]};
+                        2'b10: array_data = {16{1'b0},cache [array_add][31:16]};
+                        default: array_data = {16{1'b0},cache [array_add][15:0]};
+                    endcase
+                end
+                default: array_data = cache [array_add][DATA_WIDTH-1:0];
+            endcase
         end
     end
 //Set up replacing block, evacuate dirty data
@@ -86,7 +118,7 @@ module cache#(
         rep_add = SET_WAYS*set + lru0;//both are 0 at init, so top in set will be default
         rtwin_add = SET_WAYS*set + !lru0;
         dirty_bit = cache[rep_add][63];
-        if(dirty_bit && !write_en && !hit) begin
+        if(dirty_bit && !hit) begin //hit w is same mem Y, hit !w is read Y, !hit w is write other data X, !hit !w is load X
             dirty_add = {cache[rep_add][61:32],2'b00};
             dirty_data = cache[rep_add][31:0];
             dirty_en = 1;
@@ -100,18 +132,18 @@ module cache#(
             case(funct3)
                 3'b000: begin
                     case(mem_address[1:0])
-                    2'b00: cache [array_add][7:0]   <= cpu_data [7:0];
-                    2'b01: cache [array_add][15:8]  <= cpu_data [7:0];
-                    2'b10: cache [array_add][23:16] <= cpu_data [7:0];
-                    2'b11: cache [array_add][31:24] <= cpu_data [7:0];
-                    default: cache [array_add][7:0] <= cpu_data [7:0];
+                        2'b00: cache [array_add][7:0]   <= cpu_data [7:0];
+                        2'b01: cache [array_add][15:8]  <= cpu_data [7:0];
+                        2'b10: cache [array_add][23:16] <= cpu_data [7:0];
+                        2'b11: cache [array_add][31:24] <= cpu_data [7:0];
+                        default: cache [array_add][7:0] <= cpu_data [7:0];
                     endcase
                 end
                 3'b001: begin
                     case(mem_address[1:0])
-                    2'b00: cache [array_add][15:0]   <= cpu_data [15:0];
-                    2'b10: cache [array_add][31:16]  <= cpu_data [15:0];
-                    default: cache [array_add][15:0] <= cpu_data [15:0];
+                        2'b00: cache [array_add][15:0]   <= cpu_data [15:0];
+                        2'b10: cache [array_add][31:16]  <= cpu_data [15:0];
+                        default: cache [array_add][15:0] <= cpu_data [15:0];
                     endcase
                 end
                 default: cache [array_add][31:0] <= cpu_data;
