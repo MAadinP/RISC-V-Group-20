@@ -1,4 +1,4 @@
-module PC_STALL_REG #(
+module pc_stall_reg #(
     parameter PC_WIDTH = 32
 ) (
     input  logic                clk,

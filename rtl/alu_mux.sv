@@ -1,4 +1,4 @@
-module ALU_MUX #(
+module alu_mux #(
     parameter DATA_WIDTH = 32
 ) (
     input  logic [DATA_WIDTH-1:0] data1_in,

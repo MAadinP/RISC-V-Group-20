@@ -1,4 +1,4 @@
-module MEM_WB #(
+module mem_wb #(
     parameter DATA_WIDTH = 32,
     parameter PC_WIDTH = 32,
     parameter REG_WIDTH = 5

@@ -1,4 +1,4 @@
-module IF_ID #(
+module if_id #(
     parameter DATA_WIDTH = 32,
     parameter PC_WIDTH = 32
 ) (
