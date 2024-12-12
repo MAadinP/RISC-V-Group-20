@@ -30,24 +30,24 @@ module hazard_unit #(
 
 always_comb begin
     // Forwarding
-    if ((rs1_e == rd_m) & reg_write_m) & (rs1_e != 0) begin             // Forward From Memory Access Stage (RS1)
+    if (((rs1_e == rd_m) & reg_write_m) & (rs1_e != 0)) begin             // Forward From Memory Access Stage (RS1)
         forward_a = 2'b10;
-    end else if ((rs1_e == rd_w) & reg_write_w) & (rs1_e != 0) begin    // Forward From Writeback Stage (RS1)
+    end else if (((rs1_e == rd_w) & reg_write_w) & (rs1_e != 0)) begin    // Forward From Writeback Stage (RS1)
         forward_a = 2'b01;
     end else begin
         forward_a = 2'b00;                                          // No Forwarding Required (RS1)
     end
 
-    if ((rs2_e == rd_m) & reg_write_m) & (rs2_e != 0) begin             // Forward From Memory Access Stage (RS2)
+    if (((rs2_e == rd_m) & reg_write_m) & (rs2_e != 0)) begin             // Forward From Memory Access Stage (RS2)
         forward_b = 2'b10;
-    end else if ((rs2_e == rd_w) & reg_write_w) & (rs2_e != 0) begin    // Forward From Writeback Stage (RS2)
+    end else if (((rs2_e == rd_w) & reg_write_w) & (rs2_e != 0)) begin    // Forward From Writeback Stage (RS2)
         forward_b = 2'b01;
     end else begin
         forward_b = 2'b00;                                          // No Forwarding Required (RS2)
     end
 
     // Stalling
-    lw_stall = (result_src == '0) & ((rs1_d == rd_e) || (rs2_d == rd_e));
+    lw_stall = ((result_src == '0) & ((rs1_d == rd_e) || (rs2_d == rd_e)));
     stall_f = stall_d = flush_e = lw_stall;
 
     branch_stall = (pc_src == '1);
@@ -56,7 +56,7 @@ always_comb begin
 
     stall_f = stall_d = flush_e = stall;
 
-    flush_d = (branch_stall;)
+    flush_d = (branch_stall);
 
 end
 

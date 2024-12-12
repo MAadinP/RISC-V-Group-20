@@ -2,6 +2,7 @@ module FETCH #(
     parameter DATA_WIDTH = 32,
     parameter PC_WIDTH = 32
 ) (
+    input   logic                   trigger,
     input   logic                   clk,
     input   logic                   rst,
     input   logic                   en,
@@ -15,6 +16,7 @@ module FETCH #(
     assign pc_plus4_in = pc_in + 4;
 
     program_counter pc (
+        .trigger(trigger),
         .clk(clk),
         .rst(rst),
         .en(en),

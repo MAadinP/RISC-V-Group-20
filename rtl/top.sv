@@ -3,9 +3,10 @@ module top #(
     parameter PC_WIDTH = 32,
     parameter REG_WIDTH = 5
 ) (
+    input  logic                    trigger,
     input  logic                    clk,
     input  logic                    rst,
-    output logic [DATA_WIDTH-1:0]   a0, // Testing
+    output logic [DATA_WIDTH-1:0]   a0 // Testing
 );
     // FETCH Input Wires
     logic [PC_WIDTH-1:0]    pc_branch;      // ALU_OUT in decode stage
@@ -105,6 +106,7 @@ module top #(
     logic                   flush_d;
 
     FETCH fetch (
+        .trigger(trigger),
         .clk(clk),
         .rst(rst),
         .en(~stall_f),
@@ -159,7 +161,7 @@ module top #(
     ID_EX pipereg_id_ex (
         .clk(clk),
         .rst(rst),
-        .clr(flush_e)
+        .clr(flush_e),
         .rd1_in(rd1_in_d),
         .rd2_in(rd2_in_d),
         .pc_in(pc_in_d),
