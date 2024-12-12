@@ -47,7 +47,7 @@ always_comb begin
     end
 
     // Stalling
-    lw_stall = ((result_src == '0) & ((rs1_d == rd_e) || (rs2_d == rd_e)));
+    lw_stall = ((result_src_e == '0) & ((rs1_d == rd_e) || (rs2_d == rd_e)));
     
     stall_f = lw_stall;
     stall_d = lw_stall;
