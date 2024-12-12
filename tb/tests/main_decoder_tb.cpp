@@ -21,8 +21,7 @@ TEST_F(MainDecoderTestbench, RTypeTest)
     top->opcode = 0b0110011; // R-Type
     top->func3 = 0;
     top->eval();
-    EXPECT_EQ(top->op1_src, 0);
-    EXPECT_EQ(top->op2_src, 0);
+    EXPECT_EQ(top->alu_mux_src, 2'b00);
     EXPECT_EQ(top->wb_src, 1);
     EXPECT_EQ(top->reg_write, 1);
     EXPECT_EQ(top->mem_write, 0);
@@ -37,8 +36,7 @@ TEST_F(MainDecoderTestbench, ITypeLoadTest)
     top->opcode = 0b0000011; // I-Type (Load)
     top->func3 = 3; // Special case
     top->eval();
-    EXPECT_EQ(top->op1_src, 0);
-    EXPECT_EQ(top->op2_src, 1);
+    EXPECT_EQ(top->alu_mux_src, 2'b01);
     EXPECT_EQ(top->wb_src, 3);
     EXPECT_EQ(top->reg_write, 1);
     EXPECT_EQ(top->mem_write, 0);
@@ -53,8 +51,7 @@ TEST_F(MainDecoderTestbench, BranchTest)
     top->opcode = 0b1100011; // B-Type (Branch)
     top->func3 = 4;
     top->eval();
-    EXPECT_EQ(top->op1_src, 1);
-    EXPECT_EQ(top->op2_src, 1);
+    EXPECT_EQ(top->alu_mux_src, 2'b11);
     EXPECT_EQ(top->wb_src, 0);
     EXPECT_EQ(top->reg_write, 0);
     EXPECT_EQ(top->mem_write, 0);
