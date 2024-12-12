@@ -1,4 +1,4 @@
-module id_ex #(
+module pipereg_id_ex #(
     parameter DATA_WIDTH = 32,
     parameter PC_WIDTH = 32,
     parameter REG_WIDTH = 5
@@ -19,9 +19,9 @@ module id_ex #(
     output logic [REG_WIDTH-1:0]    rd1_out,
     output logic [REG_WIDTH-1:0]    rd2_out,
     output logic [PC_WIDTH-1:0]     pc_out,
-    output logic [REG_WIDTH:0]      rd_out,
+    output logic [REG_WIDTH-1:0]    rd_out,
     output logic [PC_WIDTH-1:0]     pc_plus4_out,
-    output logic [DATA_WIDTH-1:0]   imm_ext_out
+    output logic [DATA_WIDTH-1:0]   imm_ext_out,
     output logic [DATA_WIDTH-1:0]   read_data1_out,
     output logic [DATA_WIDTH-1:0]   read_data2_out,
     output logic [2:0]              func3_out,
@@ -49,14 +49,17 @@ always_ff @(posedge clk) begin
     rd2_out <= (!rst) ? '0 : rd2_in;
     pc_out <= (!rst) ? '0 : pc_in;
     rd_out <= (!rst) ? '0 : rd_in;
+    imm_ext_out <= (!rst) ? '0 : imm_ext_in;
     pc_plus4_out <= (!rst) ? '0 : pc_plus4_in;
+    read_data1_out <= (!rst) ? '0 : read_data1_in;
+    read_data2_out <= (!rst) ? '0 : read_data2_in;
+    func3_out <= (!rst) ? '0 : func3_in;
 
     // Control Unit Signals
     reg_write_out <= (!rst || clr) ? '0 : reg_write_in;
     result_src_out <= (!rst || clr) ? '0 : result_src_in;
     mem_write_out <= (!rst || clr) ? '0 : mem_write_in;
-    jump_out <= (!rst || clr) ? '0 : jump_in;
-    branch_out <= (!rst || clr) ? '0 : branch_in;
+    branch_jump_out <= (!rst || clr) ? 3'b000 : branch_jump_in;
     alu_ctrl_out <= (!rst || clr) ? '0 : alu_ctrl_in;
     alu_src_out <= (!rst || clr) ? '0 : alu_src_in;
     branch_valid_out <= (!rst || clr) ? '0 : branch_valid_in;

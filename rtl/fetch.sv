@@ -22,7 +22,7 @@ module fetch #(
         .en(en),
         .pc_src(pc_src),
         .pc_branch(pc_branch),
-        .pc(pc_in) 
+        .pc_out(pc_in) 
     );
 
     instruction_memory ins_mem (

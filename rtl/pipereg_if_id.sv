@@ -1,4 +1,4 @@
-module if_id #(
+module pipereg_if_id #(
     parameter DATA_WIDTH = 32,
     parameter PC_WIDTH = 32
 ) (
@@ -15,14 +15,18 @@ module if_id #(
 );
 
 always_ff @(posedge clk) begin
-    if (en) begin
-        ins_out <= (!rst) ? '0 : ins_in;
-        pc_out <= (!rst) ? '0 : pc_in;
-        pc_plus4_out <= (!rst) ? '0 : pc_plus4_in;
-    end else begin
-        ins_out <= (!rst) ? '0 : ins_out;
-        pc_out <= (!rst) ? '0 : pc_out;
-        pc_plus4_out <= (!rst) ? '0 : pc_plus4_out;
+    if (rst) begin
+        ins_out <= '0;
+        pc_out <= '0;
+        pc_plus4_out <= '0;
+    end else if (clr) begin
+        ins_out <= '0;
+        pc_out <= '0;
+        pc_plus4_out <= '0;
+    end else if (en) begin
+        ins_out <= ins_in;
+        pc_out <= pc_in;
+        pc_plus4_out <= pc_plus4_in;
     end
 end
 

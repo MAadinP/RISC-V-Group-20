@@ -1,4 +1,4 @@
-module ex_mem #(
+module pipereg_ex_mem #(
     parameter DATA_WIDTH = 32,
     parameter PC_WIDTH = 32,
     parameter REG_WIDTH = 5
@@ -14,7 +14,7 @@ module ex_mem #(
     output logic [DATA_WIDTH-1:0]   w_data_out,
     output logic [REG_WIDTH-1:0]    rd_out,
     output logic [PC_WIDTH-1:0]     pc_plus4_out,
-    output logic [2:0]              func3_in,
+    output logic [2:0]              func3_out,
 
     // Control Unit Signals
     input  logic                    reg_write_in,
@@ -26,8 +26,10 @@ module ex_mem #(
     output logic                    mem_write_out
 );
 
+assign func3_out = func3_in;
+
 always_ff @(posedge clk) begin
-    alu_res_out_out <= (!rst) ? '0 : alu_res_in;
+    alu_res_out <= (!rst) ? '0 : alu_res_in;
     w_data_out <= (!rst) ? '0 : w_data_in;
     rd_out <= (!rst) ? '0 : rd_in;
     pc_plus4_out <= (!rst) ? '0 : pc_plus4_in;

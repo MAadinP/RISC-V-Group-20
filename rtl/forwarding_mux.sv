@@ -1,5 +1,5 @@
 module forwarding_mux #(
-    parameter DATA_WIDTH = 32;
+    parameter DATA_WIDTH = 32
 ) (
     input  logic [1:0]              forward_a,
     input  logic [1:0]              forward_b,

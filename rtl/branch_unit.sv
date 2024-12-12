@@ -1,4 +1,4 @@
-module branch_control #(
+module branch_unit #(
     parameter DATA_WIDTH = 32
 ) (
     input   logic [DATA_WIDTH-1:0]  data_1,        

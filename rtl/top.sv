@@ -8,8 +8,6 @@ module top #(
     input  logic                    rst,
     output logic [DATA_WIDTH-1:0]   a0 // Testing
 );
-    // FETCH Input Wires
-    logic [PC_WIDTH-1:0]    pc_branch;      // ALU_OUT in decode stage
 
     // FETCH Output Wires (To IF/ID)
     logic [PC_WIDTH-1:0]    pc_in_f;
@@ -55,7 +53,7 @@ module top #(
     logic                   mem_write_out_idex;
     logic [4:0]             alu_ctrl_out_idex;
     logic [2:0]             branch_jump_out_idex;
-    logic                   alu_src_out_idex;
+    logic [1:0]             alu_src_out_idex;
     logic                   branch_valid_idex;
 
 
@@ -68,8 +66,6 @@ module top #(
     logic [1:0]             result_src_in_exe;
     logic                   mem_write_in_exe;
     logic                   reg_write_in_exe;
-    logic [REG_WIDTH-1:0]   rd1_in_exe;
-    logic [REG_WIDTH-1:0]   rd2_in_exe;
 
     // EX/MEM Output Wires (To MEMORY)
     logic [DATA_WIDTH-1:0]  alu_res_out_exmem;
@@ -111,7 +107,7 @@ module top #(
         .rst(rst),
         .en(~stall_f),
         .pc_src(pc_src_exe),
-        .pc_branch(pc_branch),
+        .pc_branch(alu_in_exe),
 
         .pc_in(pc_in_f),
         .pc_plus4_in(pc_plus4_in_f),
@@ -133,8 +129,9 @@ module top #(
     );
 
     decode decode (
+        .clk(clk),
         .pc_out(pc_out_ifid),
-        .pc_plus4_in(pc_plus4_out_ifid),
+        .pc_plus4_out(pc_plus4_out_ifid),
         .ins_out(ins_out_ifid),
         .write_data(wb_data_out),
         .write_addr(rd_out_memwb),
@@ -166,7 +163,7 @@ module top #(
         .rd1_in(rd1_in_d),
         .rd2_in(rd2_in_d),
         .pc_in(pc_in_d),
-        .pc_in(pc_in_d),
+        .rd_in(rd_in_d),
         .imm_ext_in(imm_ext_d),
         .pc_plus4_in(pc_plus4_in_d),
         .read_data1_in(data1_d),
@@ -201,13 +198,11 @@ module top #(
     );
 
     execute execute (
-        .rd1_out(read_data1_out_idex),
-        .rd2_out(read_data2_out_idex),
+        .read_data1_out(read_data1_out_idex),
+        .read_data2_out(read_data2_out_idex),
         .imm_extend(imm_ext_idex),
         .pc_out(pc_out_idex),
         .pc_plus4_out(pc_plus4_out_idex),
-        .rd1_out(rd1_out_idex),
-        .rd2_out(rd2_out_idex),
         .rd_out(rd_out_idex),
         .branch_src_out(branch_jump_out_idex),
         .alu_control_out(alu_ctrl_out_idex),
@@ -230,9 +225,7 @@ module top #(
         .rd_in(rd_in_exe),
         .result_src_in(result_src_in_exe),
         .mem_write_in(mem_write_in_exe),
-        .reg_write_in(reg_write_in_exe),
-        .rd1_in(rd1_in_exe),
-        .rd2_in(rd2_in_exe)
+        .reg_write_in(reg_write_in_exe)
     );
 
     pipereg_ex_mem pipereg_ex_mem (

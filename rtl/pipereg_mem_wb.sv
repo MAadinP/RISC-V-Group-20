@@ -1,4 +1,4 @@
-module mem_wb #(
+module pipereg_mem_wb #(
     parameter DATA_WIDTH = 32,
     parameter PC_WIDTH = 32,
     parameter REG_WIDTH = 5
@@ -12,14 +12,14 @@ module mem_wb #(
     output logic [DATA_WIDTH-1:0]   alu_res_out,
     output logic [DATA_WIDTH-1:0]   data_out,
     output logic [REG_WIDTH-1:0]    rd_out,
-    output logic [PC_WIDTH-1:0]     pc_plus4_out
+    output logic [PC_WIDTH-1:0]     pc_plus4_out,
 
     // Control Unit Signals
     input  logic                    reg_write_in,
     input  logic [1:0]              result_src_in,
 
     output logic                    reg_write_out,
-    output logic [1:0]              result_src_out,
+    output logic [1:0]              result_src_out
 );
 
 always_ff @(posedge clk) begin

@@ -3,9 +3,10 @@ module decode #(
     parameter PC_WIDTH = 32,
     parameter REG_WIDTH = 5
 ) (
+    input  logic                    clk,
     // IF/ID Input Signals
     input  logic [PC_WIDTH-1:0]     pc_out,     // PC is coming OUT of pipeline register
-    input  logic [PC_WIDTH-1:0]     pc_plus4_in,
+    input  logic [PC_WIDTH-1:0]     pc_plus4_out,
     input  logic [DATA_WIDTH-1:0]   ins_out,    // Instruction is coming OUT of pipeline register
 
     // Writeback Input Signals
@@ -73,7 +74,7 @@ module decode #(
         .write_en(write_enable),
         .write_data(write_data),
         .data1(read_data1),
-        .data1(read_data2),
+        .data2(read_data2),
         .a0(a0)
     );
 
