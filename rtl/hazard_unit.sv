@@ -48,13 +48,18 @@ always_comb begin
 
     // Stalling
     lw_stall = ((result_src == '0) & ((rs1_d == rd_e) || (rs2_d == rd_e)));
-    stall_f = stall_d = flush_e = lw_stall;
+    
+    stall_f = lw_stall;
+    stall_d = lw_stall;
+    flush_e = lw_stall;
 
     branch_stall = (pc_src == '1);
 
     stall = branch_stall || lw_stall;
-
-    stall_f = stall_d = flush_e = stall;
+    
+    stall_f = stall;
+    stall_d = stall;
+    flush_e = stall;
 
     flush_d = (branch_stall);
 
