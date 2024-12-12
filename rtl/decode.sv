@@ -45,7 +45,7 @@ module DECODE #(
     assign rd_in = ins_out[11:7];
     assign func3_in = ins_out[14:12];
 
-    logic [2:0] imm_src,
+    logic [2:0] imm_src;
 
     control_unit control_unit (
         .instruction(ins_out),
@@ -73,7 +73,8 @@ module DECODE #(
         .write_en(write_enable),
         .write_data(write_data),
         .data1(read_data1),
-        .data1(read_data2)
+        .data1(read_data2),
+        .a0(a0)
     );
 
 endmodule

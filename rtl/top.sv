@@ -155,7 +155,8 @@ module top #(
         .result_src_in(result_src_in_d),
         .mem_write_in(mem_write_in_d),
         .reg_write_in(reg_write_in_d),
-        .branch_valid(branch_valid_d)
+        .branch_valid(branch_valid_d),
+        .a0(a0)
     );
 
     pipereg_id_ex pipereg_id_ex (
