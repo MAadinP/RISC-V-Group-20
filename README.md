@@ -65,9 +65,11 @@
 
 ```.txt
 
-tree.txt
+
 
 ```
+
+![full-single-cycle](images/cpu-diagram1.png)
 
 <br>
 
@@ -92,17 +94,26 @@ tree.txt
 
 <center>
 
+![aludecoder table](images/image.png)
+
 </center>
 
 ##### Main Decoder (Control Unit)
 
-<center>
+<center> <table> 
 
-</center>
+<tr> <td> <img src="images/image-1.png" alt="wb_src" width="250px"> </td> <td> <img src="images/image-2.png" alt="op1_src" width="250px"> <td> </tr> 
+<tr> <td><img src="images/image-3.png" alt="op2_src" width="250px"></td> <td><img src="images/image-4.png" alt="mem_write" width="250px"></td> </tr> 
+<tr> <td><img src="images/image-5.png" alt="branch_src" width="250px"></td> <td><img src="images/image-6.png" alt="imm_src" width="250px"></td> </tr> 
+<tr> <td><img src="images/image-7.png" alt="alu_op" width="250px"></td> <td><img src="images/image-8.png" alt="reg_write" width="250px"></td> </tr> 
+
+</table> </center>
 
 #### Branch Unit
     
 <center>
+
+![branch-unit](images/branch-unit.png)
 
 </center>
 
@@ -116,25 +127,17 @@ tree.txt
 
 <center>
 
-</center>
-
-#### Instruction Memory
-
-<center>
+![alu](images/alu.png)
 
 </center>
 
-#### Data Memory
+#### Data Memory  
+
+- Extension Implementation of **LB/LH/LBU/LHU, SB/SH**
 
 <center>
 
-</center>
-
-#### Program Counter
-
-<center>
-
-
+![loadsandstores](images/loadsandstores.png)
 
 </center>
 
