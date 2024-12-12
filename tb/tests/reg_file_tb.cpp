@@ -60,7 +60,6 @@ TEST_F(RegFileTestbench, RegFile0WorksTest)
     for (int i = 0; i < 5; i++)
     {
         runSimulation(1);
-        std::cout<<"HERE: "<<top->data1<<std::endl;
         if (top->data1 != 0)
         {
             FAIL() << "the zero register does not stay and can be written to";
@@ -120,7 +119,6 @@ TEST_F(RegFileTestbench, RegFile2WorksTest)
         runSimulation(1);
         top->write_en = 1;
         top->write_data += 1;
-        std::cout<<"HERE: "<<top->data1<<std::endl;
         if (top->data1 == 13)
         {
             SUCCEED();
@@ -149,7 +147,6 @@ TEST_F(RegFileTestbench, RegFile3WorksTest)
     {
         runSimulation(1);
         top->write_data += 1;
-        std::cout<<"HERE: "<<top->data2<<std::endl;
         if (top->data2 == 14)
         {
             SUCCEED();
@@ -180,7 +177,7 @@ TEST_F(RegFileTestbench, RegFile4WorksTest)
         top->write_en = 0;
         runSimulation(10);
 
-        std::cout<<"HERE: "<<top->data1<<std::endl;
+
         if (top->data1 == 10)
         {
             SUCCEED();

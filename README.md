@@ -1,13 +1,12 @@
-# RISC-V-Group-20
+# Full instruction set 32-IM architecture
 
-**Objectives**
 
-- To learn RISC-V 32-bit integer instruction set architecture
-- To implement a single-cycle RV32I instruction set in a microarchitecture
-- To implement the F1 starting light algorithm in RV32I assembly language
-- To verify your RV32I design
-- As stretched goal, to implement a simple pipelined version of the microarchitecture with hazard
-- detection and mitigation
-- As a further stretched goal, add data cache to the pipelined RV32I
-- As a further streched goal, complete the RV32I processor
 
+### Schematic
+In the schematic below, the mux select wires are unlabelled and several wires have been grouped togethor such as 'Mux 1-7 sel'. This has been done for the sake of clarity.
+![mux sel tables](schematic1.png)
+
+
+### Mux sel table
+
+![mux sel tables](Muxsel.png)
