@@ -11,11 +11,11 @@ module data_memory #(
     output  logic [DATA_WIDTH-1:0]  data_out
 );
 
-    logic [BYTE_WIDTH-1:0] ram [17'h1FFFF:0];
+    logic [BYTE_WIDTH-1:0] ram [32'h1FFFF:0];
 
     initial begin
         $display("Loading datamem from data.hex");
-        $readmemh("data.hex", ram, 32'h00010000);
+        $readmemh("noisy.mem", ram, 32'h00010000);
     end
 
     always_ff @(posedge clk) begin                                                  

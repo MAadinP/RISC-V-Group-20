@@ -29,7 +29,7 @@ TEST_F(MainDecoderTestbench, RTypeTest)
     EXPECT_EQ(top->alu_op, 2);
     EXPECT_EQ(top->imm_src, 0);
     EXPECT_EQ(top->branch_src, 2);
-    std::cout << "R-Type test passed: reg_write = " << top->reg_write << ", mem_write = " << top->mem_write << "\n";
+
 }
 
 TEST_F(MainDecoderTestbench, ITypeLoadTest)
@@ -45,7 +45,7 @@ TEST_F(MainDecoderTestbench, ITypeLoadTest)
     EXPECT_EQ(top->alu_op, 0);
     EXPECT_EQ(top->imm_src, 6);
     EXPECT_EQ(top->branch_src, 2);
-    std::cout << "I-Type Load test passed: imm_src = " << top->imm_src << "\n";
+
 }
 
 TEST_F(MainDecoderTestbench, BranchTest)
@@ -61,7 +61,7 @@ TEST_F(MainDecoderTestbench, BranchTest)
     EXPECT_EQ(top->alu_op, 0);
     EXPECT_EQ(top->imm_src, 2);
     EXPECT_EQ(top->branch_src, 4);
-    std::cout << "Branch test passed: branch_src = " << top->branch_src << "\n";
+
 }
 
 int main(int argc, char **argv)

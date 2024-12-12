@@ -16,16 +16,8 @@
 - [ ] As a further stretched goal, add data cache to the pipelined **RV32IM**
 - [ ] As a further streched goal, complete the **RV32IM** processor
 
-
-<br>
-
----
-
-<br>
-
-### How to Run Tests
-
-
+Our individual statements are included here:
+- 
 
 <br>
 
@@ -43,6 +35,7 @@
     - **One** soace bar after _logic_ 
     - **[XXXX_WIDTH-1:0]** 
     - **One** tab after longest bracket and then variable name
+
 <br>
 
 ---
@@ -77,14 +70,6 @@
 
 <br>
 
-### Testbenches
-
-
-<br>
-
----
-
-<br>
 
 ### References
 
@@ -146,6 +131,24 @@
 ---
 
 <br>
+
+### Testbenches
+
+### How to Run Tests
+
+- Run all tests by calling [./all_tests.sh](all_tests.sh)
+- This will run tests in the following order:
+    1. All CPU tests - [verify](tb/tests/verify.cpp) 
+    2. All other tests written to confirm that all extension instructions work - [tb](tb/tests/)
+    3. Checks to see if vbuddy is connected and then
+        1. PDF plot for noisy.mem, gaussiam.mem, triangle.mem
+
+<br>
+
+---
+
+<br>
+
 
 ### Extension - Pipelined CPU + RISCV-32M Implementation
 
