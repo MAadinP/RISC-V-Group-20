@@ -111,7 +111,7 @@ module cache#(
         rep_add = SET_WAYS*set + lru0;//both are 0 at init, so top in set will be default
         rtwin_add = SET_WAYS*set + !lru0;
         dirty_bit = cache[rep_add][63];
-        if(dirty_bit) begin
+        if(dirty_bit && !write_en && !hit) begin
             dirty_add = {cache[rep_add][61:32],2'b00};
             dirty_data = cache[rep_add][31:0];
             dirty_en = 1;
