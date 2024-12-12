@@ -1,4 +1,4 @@
-module DECODE #(
+module decode #(
     parameter DATA_WIDTH = 32,
     parameter PC_WIDTH = 32,
     parameter REG_WIDTH = 5

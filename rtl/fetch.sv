@@ -1,4 +1,4 @@
-module FETCH #(
+module fetch #(
     parameter DATA_WIDTH = 32,
     parameter PC_WIDTH = 32
 ) (

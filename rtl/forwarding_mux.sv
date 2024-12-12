@@ -1,4 +1,4 @@
-module FORWARDING_MUX #(
+module forwarding_mux #(
     parameter DATA_WIDTH = 32;
 ) (
     input  logic [1:0]              forward_a,
