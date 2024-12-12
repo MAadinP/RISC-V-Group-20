@@ -105,7 +105,7 @@ module top #(
     logic                   flush_e;
     logic                   flush_d;
 
-    FETCH fetch (
+    fetch fetch (
         .trigger(trigger),
         .clk(clk),
         .rst(rst),
@@ -118,7 +118,7 @@ module top #(
         .ins_in(ins_in_f)
     );
 
-    IF_ID pipereg_if_id (
+    pipereg_if_id pipereg_if_id (
         .clk(clk),
         .rst(rst),
         .en(~stall_d),
@@ -132,7 +132,7 @@ module top #(
         .pc_plus4_out(pc_plus4_out_ifid)
     );
 
-    DECODE decode (
+    decode decode (
         .pc_out(pc_out_ifid),
         .pc_plus4_in(pc_plus4_out_ifid),
         .ins_out(ins_out_ifid),
@@ -158,7 +158,7 @@ module top #(
         .branch_valid(branch_valid_d)
     );
 
-    ID_EX pipereg_id_ex (
+    pipereg_id_ex pipereg_id_ex (
         .clk(clk),
         .rst(rst),
         .clr(flush_e),
@@ -199,7 +199,7 @@ module top #(
         .branch_valid_out(branch_valid_idex)
     );
 
-    EXECUTE execute (
+    execute execute (
         .rd1_out(read_data1_out_idex),
         .rd2_out(read_data2_out_idex),
         .imm_extend(imm_ext_idex),
@@ -234,7 +234,7 @@ module top #(
         .rd2_in(rd2_in_exe)
     );
 
-    EX_MEM pipereg_ex_mem (
+    pipereg_ex_mem pipereg_ex_mem (
         .clk(clk),
         .rst(rst),
         .alu_res_in(alu_in_exe),
@@ -268,7 +268,7 @@ module top #(
         .data_out(data_out_mem)
     );
 
-    MEM_WB pipereg_mem_wb (
+    pipereg_mem_wb pipereg_mem_wb (
         .clk(clk),
         .rst(rst),
         .alu_res_in(alu_res_out_exmem),
@@ -288,7 +288,7 @@ module top #(
         .result_src_out(result_src_out_memwb)
     );
 
-    MUX3 mux3 (
+    mux3 mux3 (
         .in0(alu_res_out_memwb),
         .in1(data_out_memwb),
         .in2(pc_plus4_out_memwb),
