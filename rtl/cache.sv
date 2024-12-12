@@ -48,13 +48,13 @@ module cache#(
         end
         $display("Cache initialised");
     end
-//
+//Setup for "hit" comb logic
     assign w0_tag = cache [SET_WAYS*set][61:41]; 
     assign w1_tag = cache [1+SET_WAYS*set][61:41];
     assign v0 = cache [SET_WAYS*set][CACHE_WIDTH-1]; 
     assign v1 = cache [1+SET_WAYS*set][CACHE_WIDTH-1];
     assign load_radd = mem_address; //FEEDS INTO A DIFFERENT PORT ON DRAM
-//hit
+//Hit
     always_comb begin
         if ((inp_tag == w0_tag) && (v0)) begin  //hit taken out instantly
             h0 = 1;
@@ -72,8 +72,8 @@ module cache#(
             hit = 0;
         end
     end
-
-//read
+//Set up read, hit write
+//Always/Constantly asynch reads - can be discarded outside cache
     always_comb begin
         if(hit)begin
             array_add = SET_WAYS*set + !h0;
@@ -81,68 +81,7 @@ module cache#(
             array_data = cache [array_add][DATA_WIDTH-1:0];
         end
     end
-    always_ff@(posedge clk) begin
-        if(hit && !write_en) begin   ///rem wr
-            cache [atwin_add][62] <= 0; //lru
-            cache [array_add][62] <= 1; //lru
-            
-        end
-    end
-
-//  write with hit
-    always_ff@(posedge clk) begin
-        if (hit && write_en) begin
-            case(funct3)
-                3'b000: begin
-                    case(mem_address[1:0])
-                    2'b00: cache [array_add][7:0]   <= cpu_data [7:0];
-                    2'b01: cache [array_add][15:8]  <= cpu_data [7:0];
-                    2'b10: cache [array_add][23:16] <= cpu_data [7:0];
-                    2'b11: cache [array_add][31:24] <= cpu_data [7:0];
-                    endcase
-                end
-                3'b001: begin
-                    case(mem_address[1:0])
-                    2'b00: cache [array_add][15:0]  <= cpu_data [15:0];
-                    2'b10: cache [array_add][31:16] <= cpu_data [15:0];
-                    endcase
-                end
-                default: cache [array_add][31:0] <= cpu_data;
-            endcase
-            cache [atwin_add][62] <= 0;        ///rem both lru
-            cache [array_add][62] <= 1; //lru
-            cache [array_add][63] <= 1; // dirty
-            cache [array_add][CACHE_WIDTH-1] <= 1; //valid fringe case useful
-
-        end else if (!hit && write_en) begin 
-            case(funct3)
-                3'b000: begin
-                    case(mem_address[1:0])
-                        2'b00: cache [rep_add][7:0]   <= cpu_data [7:0];
-                        2'b01: cache [rep_add][15:8]  <= cpu_data [7:0];
-                        2'b10: cache [rep_add][23:16] <= cpu_data [7:0];
-                        2'b11: cache [rep_add][31:24] <= cpu_data [7:0];
-                        default: cache [rep_add][7:0]   <= cpu_data [7:0];
-                    endcase
-                end
-                3'b001: begin
-                    case(mem_address[1:0])
-                        2'b00: cache [rep_add][15:0]  <= cpu_data [15:0];
-                        2'b10: cache [rep_add][31:16] <= cpu_data [15:0];
-                        default: cache [rep_add][15:0]  <= cpu_data [15:0];
-                    endcase
-                end
-                default: cache [rep_add][31:0] <= cpu_data;
-            endcase
-            cache [rtwin_add][62] <= 0;//lru
-            cache [rep_add][62] <= 1; //lru
-            cache [rep_add][63] <= 1; //dirty
-            cache [rep_add][CACHE_WIDTH-1] <= 1;//valid
-            cache [rep_add][61:32] <= mem_address[31:2];
-        end
-    end
-
-// load   
+//Set up replacing block, evacuate dirty data
     always_comb begin
         rep_add = SET_WAYS*set + lru0;//both are 0 at init, so top in set will be default
         rtwin_add = SET_WAYS*set + !lru0;
@@ -155,14 +94,72 @@ module cache#(
             dirty_en = 0;
         end
     end
-
+//  write with hit
     always_ff@(posedge clk) begin
-        if (!hit && !write_en) begin
+        if (hit && write_en) begin
+            case(funct3)
+                3'b000: begin
+                    case(mem_address[1:0])
+                    2'b00: cache [array_add][7:0]   <= cpu_data [7:0];
+                    2'b01: cache [array_add][15:8]  <= cpu_data [7:0];
+                    2'b10: cache [array_add][23:16] <= cpu_data [7:0];
+                    2'b11: cache [array_add][31:24] <= cpu_data [7:0];
+                    default: cache [array_add][7:0] <= cpu_data [7:0];
+                    endcase
+                end
+                3'b001: begin
+                    case(mem_address[1:0])
+                    2'b00: cache [array_add][15:0]   <= cpu_data [15:0];
+                    2'b10: cache [array_add][31:16]  <= cpu_data [15:0];
+                    default: cache [array_add][15:0] <= cpu_data [15:0];
+                    endcase
+                end
+                default: cache [array_add][31:0] <= cpu_data;
+            endcase
+            cache [array_add][63] <= 1; // dirty
+        end else if (!hit && write_en) begin 
+            case(funct3)
+                3'b000: begin
+                    case(mem_address[1:0])
+                        2'b00: cache [rep_add][7:0]   <= cpu_data [7:0];
+                        2'b01: cache [rep_add][15:8]  <= cpu_data [7:0];
+                        2'b10: cache [rep_add][23:16] <= cpu_data [7:0];
+                        2'b11: cache [rep_add][31:24] <= cpu_data [7:0];
+                        default: cache [rep_add][7:0] <= cpu_data [7:0];
+                    endcase
+                end
+                3'b001: begin
+                    case(mem_address[1:0])
+                        2'b00: cache [rep_add][15:0]  <= cpu_data [15:0];
+                        2'b10: cache [rep_add][31:16] <= cpu_data [15:0];
+                        default: cache [rep_add][15:0]  <= cpu_data [15:0];
+                    endcase
+                end
+                default: cache [rep_add][31:0] <= cpu_data;
+            endcase
+            cache [rep_add][63] <= 1; //dirty
+        end
+    end
+//read, hit write lru
+    always_ff@(posedge clk) begin
+        if(hit) begin  
+            cache [atwin_add][62] <= 0; //lru
+            cache [array_add][62] <= 1; //lru
+        end
+    end
+//load || miss write: replacing block made valid, lru, address updated   
+    always_ff@(posedge clk) begin
+        if(!hit)begin
+            cache [rep_add][CACHE_WIDTH-1] <= 1;//valid
             cache [rtwin_add][62] <= 0;//lru
             cache [rep_add][62] <= 1; //lru
-            cache [rep_add][63] <= 0;
-            cache [rep_add][CACHE_WIDTH-1] <= 1;//valid
             cache [rep_add][61:32] <= mem_address[31:2];
+        end
+    end
+//load from dram
+    always_ff@(posedge clk) begin
+        if (!hit && !write_en) begin
+            cache [rep_add][63] <= 0;//undirtied
             cache [rep_add][31:0] <= new_data;
         end
     end
