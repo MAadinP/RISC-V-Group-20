@@ -16,7 +16,6 @@ module control_unit (
     logic [6:0] funct7;
     logic [1:0] alu_op;
     logic [1:0] funct7_5_0; // New signal for the 5th and 0th bits of funct7
-    logic       is_immediate;
 
     assign opcode = instruction[6:0];
     assign funct3 = instruction[14:12];
@@ -33,15 +32,13 @@ module control_unit (
         .alu_mux_src(alu_mux_src),
         .wb_src(wb_src),
         .reg_write(reg_write),
-        .branch_valid(branch_valid),
-        .is_immediate(is_immediate)     
+        .branch_valid(branch_valid)  
     );
 
     alu_decoder alu_decoder_unit (
         .func3(funct3),
         .alu_op(alu_op),
         .func7_5_0(funct7_5_0),
-        .is_immediate(is_immediate),
         .alu_src(alu_src)
     );
 
