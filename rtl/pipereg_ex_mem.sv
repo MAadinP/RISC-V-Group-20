@@ -9,10 +9,12 @@ module EX_MEM #(
     input  logic [DATA_WIDTH-1:0]   w_data_in,
     input  logic [REG_WIDTH-1:0]    rd_in,
     input  logic [PC_WIDTH-1:0]     pc_plus4_in,
+    input  logic [2:0]              func3_in,
     output logic [DATA_WIDTH-1:0]   alu_res_out,
     output logic [DATA_WIDTH-1:0]   w_data_out,
     output logic [REG_WIDTH-1:0]    rd_out,
-    output logic [PC_WIDTH-1:0]     pc_plus4_out
+    output logic [PC_WIDTH-1:0]     pc_plus4_out,
+    output logic [2:0]              func3_in,
 
     // Control Unit Signals
     input  logic                    reg_write_in,
@@ -21,7 +23,7 @@ module EX_MEM #(
 
     output logic                    reg_write_out,
     output logic [1:0]              result_src_out,
-    output logic                    mem_write_out,
+    output logic                    mem_write_out
 );
 
 always_ff @(posedge clk) begin

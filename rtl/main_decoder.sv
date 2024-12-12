@@ -8,7 +8,8 @@ module main_decoder (
     output  logic [1:0] alu_mux_src,
     output  logic [1:0] wb_src,
     output  logic       reg_write,
-    output  logic       branch_valid
+    output  logic       branch_valid,
+    output  logic       is_immediate
 );
 
     logic op1_src, op2_src;
@@ -26,6 +27,7 @@ module main_decoder (
                 imm_src = 3'b000;
                 branch_src = 3'b010;
                 branch_valid = 0;
+                is_immediate = 0;
             end
             7'b0000011: begin // I-Type (Load) - Contains Unnsigned extend
                 op1_src = 0;
@@ -53,6 +55,7 @@ module main_decoder (
                 imm_src = 3'b000;
                 branch_src = 3'b010;
                 branch_valid = 0;
+                is_immediate = 1;
             end
             7'b0100011: begin // S-Type (Store)
                 op1_src = 0;
@@ -136,7 +139,8 @@ module main_decoder (
                 mem_write = 0; 
                 alu_op = 2'b01; 
                 imm_src = 3'b000;      
-                branch_valid = 0;     
+                branch_valid = 0;
+                is_immediate = 0;     
             end
         endcase
 

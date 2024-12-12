@@ -4,8 +4,8 @@ module EXECUTE #(
     parameter REG_WIDTH = 5
 ) (
     //ID/EX Input Signals
-    input  logic [DATA_WIDTH-1:0]   rd1_out,
-    input  logic [DATA_WIDTH-1:0]   rd2_out,
+    input  logic [DATA_WIDTH-1:0]   read_data1_out,
+    input  logic [DATA_WIDTH-1:0]   read_data2_out,
     input  logic [DATA_WIDTH-1:0]   imm_extend,
     input  logic [PC_WIDTH-1:0]     pc_out,
     input  logic [PC_WIDTH-1:0]     pc_plus4_out,
@@ -18,7 +18,7 @@ module EXECUTE #(
     input  logic [1:0]              alu_src_out,
     input  logic                    mem_write_out,
     input  logic                    reg_write_out,
-    input  logic                    branch_valid
+    input  logic                    branch_valid,
 
     // Hazard Unit Input Signals
     input  logic [1:0]              forward_a,
@@ -42,15 +42,19 @@ module EXECUTE #(
     output logic [1:0]              result_src_in,
     output logic                    mem_write_in,
     output logic                    reg_write_in,
+    output logic [REG_WIDTH-1:0]    rd1_in,
+    output logic [REG_WIDTH-1:0]    rd2_in
+    
 );
     // Direct Output Signals
     assign pc_plus4_in = pc_plus4_out;
     assign rd_in = rd_out;
     assign mem_write_in = mem_write_out;
     assign result_src_in = result_src_out;
+    assign rd1_in = rd1_out;
+    assign rd2_in = rd2_out;
 
     assign w_data_in = alu_op_b;
-
 
     // Forwarding MUX Outputs
     logic [DATA_WIDTH-1:0]  alu_op_a;
@@ -63,8 +67,8 @@ module EXECUTE #(
     FORWARDING_MUX forwarding_mux (
         .forward_a(forward_a),
         .forward_b(forward_b),
-        .rd1(rd1_out),
-        .rd2(rd2_out),
+        .rd1(read_data1_out),
+        .rd2(read_data2_out),
         .mem_out(mem_out),
         .wb_out(wb_out),
         .alu_op_a(alu_op_a),

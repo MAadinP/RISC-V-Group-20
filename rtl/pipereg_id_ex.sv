@@ -14,6 +14,7 @@ module ID_EX #(
     input  logic [PC_WIDTH-1:0]     pc_plus4_in,
     input  logic [DATA_WIDTH-1:0]   read_data1_in,
     input  logic [DATA_WIDTH-1:0]   read_data2_in,
+    input  logic [2:0]              func3_in,
 
     output logic [REG_WIDTH-1:0]    rd1_out,
     output logic [REG_WIDTH-1:0]    rd2_out,
@@ -23,6 +24,7 @@ module ID_EX #(
     output logic [DATA_WIDTH-1:0]   imm_ext_out
     output logic [DATA_WIDTH-1:0]   read_data1_out,
     output logic [DATA_WIDTH-1:0]   read_data2_out,
+    output logic [2:0]              func3_out,
 
     // Control Unit Signals
     input  logic                    reg_write_in,

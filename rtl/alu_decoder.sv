@@ -6,11 +6,12 @@ module alu_decoder #(
     input   logic [FUNC3_WIDTH-1:0]     func3,
     input   logic [ALUOP_WIDTH-1:0]     alu_op,
     input   logic [1:0]                 func7_5_0,  // 5th and 0th bits of funct7
+    input   logic                       is_immediate,
     output  logic [ALUCTR_WIDTH-1:0]    alu_ctrl
 );
 
 logic is_multiplication;
-assign is_multiplication = (func7_5_0 == 2'b01);
+assign is_multiplication = ((func7_5_0 == 2'b01) & !is_immediate);
 
     always_comb begin
 

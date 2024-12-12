@@ -29,6 +29,7 @@ module top_cpu #(
     logic [REG_WIDTH-1:0]   rd1_in_d;
     logic [REG_WIDTH-1:0]   rd2_in_d;
     logic [REG_WIDTH-1:0]   rd_in_d;
+    logic [2:0]             func3_in_d;
     logic [2:0]             branch_src_in_d;
     logic [4:0]             alu_control_in_d;
     logic [1:0]             alu_mux_src_in_d;
@@ -46,6 +47,7 @@ module top_cpu #(
     logic [DATA_WIDTH-1:0]  imm_ext_idex;
     logic [DATA_WIDTH-1:0]  read_data1_out_idex;
     logic [DATA_WIDTH-1:0]  read_data2_out_idex;
+    logic [2:0]             func3_out_idex;
 
     logic                   reg_write_out_idex;
     logic [1:0]             result_src_out_idex;
@@ -76,6 +78,7 @@ module top_cpu #(
     logic [1:0]             result_src_out_exmem;
     logic                   reg_write_out_exmem;
     logic                   mem_write_out_exmem;
+    logic [2:0]             func3_out_exmem;
 
     //Data Memory Output Wire (To MEM/WB)
     logic [DATA_WIDTH-1:0]  data_out_mem;
@@ -101,18 +104,11 @@ module top_cpu #(
     logic                   flush_e;
     logic                   flush_d;
 
-
-    hazard_unit hazard_unit (
-        .rs1_e(),
-        .rs2_e(),
-        .rd_w()
-    );
-
     FETCH fetch (
         .clk(clk),
         .rst(rst),
         .en(~stall_f),
-        .pc_src(pc_src),
+        .pc_src(pc_src_exe),
         .pc_branch(pc_branch),
 
         .pc_in(pc_in_f),
@@ -149,7 +145,8 @@ module top_cpu #(
         .pc_plus4_in(pc_plus4_in_d),
         .rd1_in(rd1_in_d),
         .rd2_in(rd2_in_d),
-        .pc_in(pc_in_d),
+        .rd_in(rd_in_d),
+        .func3_in(func3_in_d),
         .branch_src_in(branch_src_in_d),
         .alu_control_in(alu_control_in_d),
         .alu_mux_src_in(alu_mux_src_in_d),
@@ -171,6 +168,7 @@ module top_cpu #(
         .pc_plus4_in(pc_plus4_in_d),
         .read_data1_in(data1_d),
         .read_data2_in(data2_d),
+        .func3_in(func3_in_d),
 
         .rd1_out(rd1_out_idex),
         .rd2_out(rd2_out_idex),
@@ -180,6 +178,7 @@ module top_cpu #(
         .imm_ext_out(imm_ext_idex),
         .read_data1_out(read_data1_out_idex),
         .read_data2_out(read_data2_out_idex),
+        .func3_out(func3_out_idex),
 
         .reg_write_in(reg_write_in_d),
         .result_src_in(result_src_in_d),
@@ -206,7 +205,7 @@ module top_cpu #(
         .pc_plus4_out(pc_plus4_out_idex),
         .rd1_out(rd1_out_idex),
         .rd2_out(rd2_out_idex),
-        .rd_out(rd1_out_idex),
+        .rd_out(rd_out_idex),
         .branch_src_out(branch_jump_out_idex),
         .alu_control_out(alu_ctrl_out_idex),
         .result_src_out(result_src_out_idex),
@@ -240,11 +239,13 @@ module top_cpu #(
         .w_data_in(w_data_in_exe),
         .rd_in(rd_in_exe),
         .pc_plus4_in(pc_plus4_in_exe),
+        .func3_in(func3_out_idex),
 
         .alu_res_out(alu_res_out_exmem),
         .w_data_out(w_data_out_exmem),
         .rd_out(rd_out_exmem),
         .pc_plus4_out(pc_plus4_out_exmem),
+        .func3_out(func3_out_exmem),
 
         .reg_write_in(reg_write_in_exe),
         .result_src_in(result_src_in_exe),
@@ -258,11 +259,11 @@ module top_cpu #(
     data_memory data_memory (
         .clk(clk),
         .write_enable(mem_write_out_exmem),
-        .func3(),                                   // !!! WHAT IS THIS FOR AND WHERE IS IT FROM !!!
+        .func3(func3_out_exmem),
         .address(alu_res_out_exmem),
         .write_data(w_data_out_exmem),
 
-        .data_out(data_out_mem),
+        .data_out(data_out_mem)
     );
 
     MEM_WB pipereg_mem_wb (
@@ -289,7 +290,7 @@ module top_cpu #(
         .in0(alu_res_out_memwb),
         .in1(data_out_memwb),
         .in2(pc_plus4_out_memwb),
-        .sel(result_src_out_exmem),
+        .sel(result_src_out_memwb),
         .out(wb_data_out)
     );
 

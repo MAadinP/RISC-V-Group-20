@@ -22,6 +22,7 @@ module DECODE #(
     output logic [REG_WIDTH-1:0]    rd1_in,         //
     output logic [REG_WIDTH-1:0]    rd2_in,         //
     output logic [REG_WIDTH-1:0]    rd_in,          //
+    output logic [2:0]              func3_in,       //
     output logic [2:0]              branch_src_in,  // Control Unit
     output logic [4:0]              alu_control_in, //
     output logic [1:0]              alu_mux_src_in, //
@@ -32,6 +33,8 @@ module DECODE #(
 
     output logic [DATA_WIDTH-1:0]   a0              // Testing
 
+
+
 );
 
     // Direct Connection
@@ -40,6 +43,7 @@ module DECODE #(
     assign rd1_in = ins_out[19:15];
     assign rd2_in = ins_out[24:20];
     assign rd_in = ins_out[11:7];
+    assign func3_in = ins_out[14:12];
 
     logic [2:0] imm_src,
 
@@ -69,7 +73,7 @@ module DECODE #(
         .write_en(write_enable),
         .write_data(write_data),
         .data1(read_data1),
-        .data1(read_data2),
+        .data1(read_data2)
     );
 
 endmodule
