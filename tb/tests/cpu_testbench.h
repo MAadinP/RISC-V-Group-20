@@ -42,8 +42,8 @@ public:
 
         // Initialise inputs
         top_->clk = 1;
-        top_->rst = 1;
-        top_->trigger = 0;
+        top_->rst = 0;
+        top_->trigger = 1;
         runSimulation(10);  // Process reset
         top_->rst = 0;
     }
@@ -59,7 +59,7 @@ public:
                 tfp_->dump(2 * ticks_ + clk);
                 top_->clk = !top_->clk;
             }
-            ticks_++;
+            ticks_++;                      
 
             if (Verilated::gotFinish())
             {

@@ -16,7 +16,6 @@ protected:
         top->sel = 0;
         top->in0 = 0;
         top->in1 = 0;
-        // output: out
     }
 };
 

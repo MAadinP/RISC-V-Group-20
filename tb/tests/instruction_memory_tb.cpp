@@ -11,7 +11,6 @@ protected:
     void initializeInputs() override
     {
         top->pc = 0;
-        // output: out
     }
 };
 
@@ -19,7 +18,6 @@ TEST_F(InstructionMemoryTestbench, IM0WorksTest)
 {
     top->pc = 0;
     top->eval();
-    std::cout<<"HERE:"<<top->instr<<std::endl;
     EXPECT_EQ(top->instr, 1313556549);
     
 }
@@ -28,7 +26,6 @@ TEST_F(InstructionMemoryTestbench, IM1WorksTest)
 {
     top->pc = 5;
     top->eval();
-    std::cout<<"HERE:"<<top->instr<<std::endl;
     EXPECT_EQ(top->instr, 567354312);
     
 }

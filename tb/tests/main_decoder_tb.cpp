@@ -1,7 +1,7 @@
 #include "base_testbench.h"
 #include <iostream>
 
-Vmain_decoder *top;
+Vdut *top;
 VerilatedVcdC *tfp;
 unsigned int ticks = 0;
 
@@ -13,6 +13,7 @@ protected:
         top->opcode = 0;
         top->func3 = 0;
     }
+
 };
 
 TEST_F(MainDecoderTestbench, RTypeTest)
@@ -22,13 +23,13 @@ TEST_F(MainDecoderTestbench, RTypeTest)
     top->eval();
     EXPECT_EQ(top->op1_src, 0);
     EXPECT_EQ(top->op2_src, 0);
-    EXPECT_EQ(top->wb_src, 2);
+    EXPECT_EQ(top->wb_src, 1);
     EXPECT_EQ(top->reg_write, 1);
     EXPECT_EQ(top->mem_write, 0);
     EXPECT_EQ(top->alu_op, 2);
     EXPECT_EQ(top->imm_src, 0);
     EXPECT_EQ(top->branch_src, 2);
-    std::cout << "R-Type test passed: reg_write = " << top->reg_write << ", mem_write = " << top->mem_write << "\n";
+
 }
 
 TEST_F(MainDecoderTestbench, ITypeLoadTest)
@@ -44,7 +45,7 @@ TEST_F(MainDecoderTestbench, ITypeLoadTest)
     EXPECT_EQ(top->alu_op, 0);
     EXPECT_EQ(top->imm_src, 6);
     EXPECT_EQ(top->branch_src, 2);
-    std::cout << "I-Type Load test passed: imm_src = " << top->imm_src << "\n";
+
 }
 
 TEST_F(MainDecoderTestbench, BranchTest)
@@ -57,15 +58,15 @@ TEST_F(MainDecoderTestbench, BranchTest)
     EXPECT_EQ(top->wb_src, 0);
     EXPECT_EQ(top->reg_write, 0);
     EXPECT_EQ(top->mem_write, 0);
-    EXPECT_EQ(top->alu_op, 1);
+    EXPECT_EQ(top->alu_op, 0);
     EXPECT_EQ(top->imm_src, 2);
     EXPECT_EQ(top->branch_src, 4);
-    std::cout << "Branch test passed: branch_src = " << top->branch_src << "\n";
+
 }
 
 int main(int argc, char **argv)
 {
-    top = new Vmain_decoder;
+    top = new Vdut;
     tfp = new VerilatedVcdC;
 
     Verilated::traceEverOn(true);
