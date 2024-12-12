@@ -10,6 +10,7 @@ module cache#(
     //paramter  SET_NO_LOG = 8
 ) (
     input   logic                       clk,
+    input   logic [2:0]                 funct3,
     input   logic [MEMORY_WIDTH-1:0]    mem_address, // 
     input   logic                       write_en,    // high when the processor writes to cache, low otherwise
     input   logic [DATA_WIDTH-1:0]      cpu_data,    // data straight from cpu for store word
@@ -81,7 +82,7 @@ module cache#(
         end
     end
     always_ff@(posedge clk) begin
-        if(hit && !write_en) begin
+        if(hit && !write_en) begin   ///rem wr
             cache [atwin_add][62] <= 0; //lru
             cache [array_add][62] <= 1; //lru
             
@@ -91,18 +92,53 @@ module cache#(
 //  write with hit
     always_ff@(posedge clk) begin
         if (hit && write_en) begin
-            cache [atwin_add][62] <= 0;
+            case(funct3)
+                3'b000: begin
+                    case(mem_address[1:0])
+                    2'b00: cache [array_add][7:0]   <= cpu_data [7:0];
+                    2'b01: cache [array_add][15:8]  <= cpu_data [7:0];
+                    2'b10: cache [array_add][23:16] <= cpu_data [7:0];
+                    2'b11: cache [array_add][31:24] <= cpu_data [7:0];
+                    endcase
+                end
+                3'b001: begin
+                    case(mem_address[1:0])
+                    2'b00: cache [array_add][15:0]  <= cpu_data [15:0];
+                    2'b10: cache [array_add][31:16] <= cpu_data [15:0];
+                    endcase
+                end
+                default: cache [array_add][31:0] <= cpu_data;
+            endcase
+            cache [atwin_add][62] <= 0;        ///rem both lru
             cache [array_add][62] <= 1; //lru
             cache [array_add][63] <= 1; // dirty
             cache [array_add][CACHE_WIDTH-1] <= 1; //valid fringe case useful
-            cache [array_add][31:0] <= cpu_data;
+
         end else if (!hit && write_en) begin 
+            case(funct3)
+                3'b000: begin
+                    case(mem_address[1:0])
+                        2'b00: cache [rep_add][7:0]   <= cpu_data [7:0];
+                        2'b01: cache [rep_add][15:8]  <= cpu_data [7:0];
+                        2'b10: cache [rep_add][23:16] <= cpu_data [7:0];
+                        2'b11: cache [rep_add][31:24] <= cpu_data [7:0];
+                        default: cache [rep_add][7:0]   <= cpu_data [7:0];
+                    endcase
+                end
+                3'b001: begin
+                    case(mem_address[1:0])
+                        2'b00: cache [rep_add][15:0]  <= cpu_data [15:0];
+                        2'b10: cache [rep_add][31:16] <= cpu_data [15:0];
+                        default: cache [rep_add][15:0]  <= cpu_data [15:0];
+                    endcase
+                end
+                default: cache [rep_add][31:0] <= cpu_data;
+            endcase
             cache [rtwin_add][62] <= 0;//lru
             cache [rep_add][62] <= 1; //lru
             cache [rep_add][63] <= 1; //dirty
             cache [rep_add][CACHE_WIDTH-1] <= 1;//valid
             cache [rep_add][61:32] <= mem_address[31:2];
-            cache [rep_add][31:0] <= cpu_data;
         end
     end
 
