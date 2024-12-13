@@ -43,7 +43,7 @@ special design decisons, and what you might do differently if you were to do it 
 
 #### all_tests.sh
 
-- **Relevant Commits:** 
+- **Relevant Commit Names:** 
     - fully functional all_tests.sh script and added to single cycle documentations
 - Written to call all tests and testbenches available in the tb/ folder in one command.
 - This script starts by running the Gtest testbenches and the output for the number of tests passed can be seen in the terminal
@@ -60,14 +60,15 @@ special design decisons, and what you might do differently if you were to do it 
 
 ### major fixes
 
-- **Relevant Commits:**
+- **Relevant Commit Names:**
     - all control signals updated
 
-- There were some major fixes 
+- There were some major fixes from the initial main decoder made by Dawud. There were plenty of control signals missing/not yet implement
+- These included all select  signals for the muxes before the ALU. I also redesigned the  
 
 #### data_memory.sv
 
-- **Relevant Commits:**
+- **Relevant Commit Names:**
     - 
 
 - In this file, I wrote all the logic to implement LB, LBU, LH, LHU and LW along side SW, SH and SB
@@ -75,7 +76,7 @@ special design decisons, and what you might do differently if you were to do it 
 
 #### branch_control.sv
 
-- **Relevant Commits:**
+- **Relevant Commit Names:**
     -
 
 - Takes the data from the output of the register file and then using a branch_src control signal to do the relavant conditional comparison, then outputs pc_src to take the conditional change in PC
@@ -84,30 +85,32 @@ special design decisons, and what you might do differently if you were to do it 
 
 #### sign_extend.sv
 
-- **Relevant Commits:**
+- **Relevant Commit Names:**
     - 
 - Designed to work for all types of instructions especially 
 
 #### alu_decoder.sv
-- **Relevant Commits:**
+- **Relevant Commit Names:**
     -
 - Started by writing alu decoder and 
 
 #### top.sv 
-- **Relevant Commits:**
+- **Relevant Commit Names:**
     -
 
 - Put the entire cpu together drawing the followin cpu schematic as a reference
 
 #### f1-test
-- **Relevant Commits:**
+- **Relevant Commit Names:**
     - finished pdf testbench and f1 for vbuddy
+    - f1 program written
+    - f1 asm written 
 
-- Inital design was to use it as a reset then I updated it to function
+- Inital design of the assembly code was rather long and utilised data memory but it did not use a0 to return the values for vbuddy to light up the 
 
 #### cache
 
-- **Relevant Commits:**
+- **Relevant Commit Names:**
     - 
 - Helped to put together 
 
