@@ -19,7 +19,7 @@
 Our individual statements are included here:
 [Aadin](statements/Aadin-Personal-Statement.md)
 [Ethan](statements/)
-[Darryl](statements/)
+[Darryl](statements/Darryl-Personal-Statement.pdf)
 [Dawud](statements/)
 [Aidan](statements/)
 
@@ -76,7 +76,7 @@ Our individual statements are included here:
 |**MAadinP**|Aadin|
 |**root** (TheZuzuSnuSnu)|Ethan|
 |**DarrylProgrammer**|Darryl|
-|**dk7**-stacker|Dawud|
+|**dk7-stacker**|Dawud|
 |**ak6123**|Aidan|
 
 ### Submodule Task Allocation
@@ -84,8 +84,6 @@ Our individual statements are included here:
 **Key**
 **✘** - Main Contribution
 ✗ - Assisted/Fixed
-
-# TODO - Darry Pipeline and Cache
 
 | Tasks  |  Aadin  |  Ethan  |  Darryl  |  Dawud  |  Aidan  |
 |:------:|:-------:|:-------:|:--------:|:-------:|:-------:|
@@ -105,7 +103,11 @@ Our individual statements are included here:
 | top | **✘** |  |  |  |  |
 | --- |  |  |  |  |  |
 | **Pipelined-cpu** |  |  |  |  |  |
-| top | **✘** |  |  |  |  |
+| hazard_unit |  |  | **✘** |  |  |
+| control_unit |  |  | ✗ |  |  |
+| pipeline_reg |  |  | **✘** |  |  |
+| alu_decoder |  |  | ✗ |  |  |
+| top (+ top levels for stages) |  |  | **✘** |  |  |
 | **Pipelined-cpu-2** |  |  |  |  |  |
 | hazard_unit | | **✘** |  |  |  |
 | control_unit | | **✘** |  |  |  |
@@ -113,7 +115,10 @@ Our individual statements are included here:
 | data_memory | | **✘**  |  |  |  |
 | design | ✗ | **✘** |  |  |  |
 | **Cached-cpu** |  |  |  |  |  |
-| top | **✘** |  |  |  |  |
+| cache |  |  |  |  |  |
+| data memory |  |  |  |  |  |
+| hit mux |  |  |  |  | **✘**  |
+| top |  |  |  |  | **✘** |
 
 
 
