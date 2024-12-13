@@ -33,9 +33,11 @@
 
 - **Relevant Contributions:**
   - Designed the main_decoder module to handle instruction decoding and control signal generation.
-  - Assisted with creating and testing the testbench for the main_decoder module.
+  - Created and used the testbench for the main_decoder module. This became the base for many other testbenches
+
 
 - Key design considerations included modularity and scalability to ensure the control unit could integrate seamlessly into both single-cycle and pipelined architectures.
+
 
 ---
 
