@@ -19,7 +19,8 @@ random_delay:
     # Generate random value
     XORI t3, t3, 0x05           # XOR seed with a constant
     SRLI t3, t3, 1              # Shift right to mix bits
-    ORI t2, t3, 10              # Ensure a minimum delay by adding a base value
+    ANDI t3, t3, 0x1F           # Limit delay to a maximum of 31 cycles
+    ADDI t2, t3, 10             # Ensure a minimum delay of 10 cycles
 
 random_delay_loop:
     ADDI t2, t2, -1             # Decrement counter

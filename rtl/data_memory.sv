@@ -15,7 +15,7 @@ module data_memory #(
 
     initial begin
         $display("Loading datamem from data.hex");
-        $readmemh("noisy.mem", ram, 32'h00010000);
+        $readmemh("data.hex", ram, 32'h00010000);
     end
 
     always_ff @(posedge clk) begin                                                  

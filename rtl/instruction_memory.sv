@@ -7,7 +7,7 @@ module instruction_memory #(
     output  logic [31:0]      instr
 );
 
-logic [DATA_WIDTH-1:0] instruction_array [2047:0];//memory goes for 0xBFC00000 to 0xBFC00FFF, this is my way of cheating it
+logic [DATA_WIDTH-1:0] instruction_array [4095:0];//memory goes for 0xBFC00000 to 0xBFC00FFF, this is my way of cheating it
 
 initial begin
     $display("Loading instructions");

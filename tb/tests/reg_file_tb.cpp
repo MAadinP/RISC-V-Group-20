@@ -89,7 +89,7 @@ TEST_F(RegFileTestbench, RegFile1WorksTest)
     {
         runSimulation(1);
         top->write_data += 1;
-        std::cout<<"HERE: "<<top->data1<<std::endl;
+        
         if (top->data1 == 14)
         {
             SUCCEED();

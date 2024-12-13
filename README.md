@@ -42,7 +42,7 @@ Our individual statements are included here:
 
 <br>
 
-### **Structural Level Breakdown**
+### **Single Cycle Breakdown**
 
 - [reg_file.sv](rtl/reg_file.sv)
 - [control_unit.sv](rtl/control_unit.sv)
@@ -50,17 +50,14 @@ Our individual statements are included here:
     - [alu_decoder.sv](rtl/alu_decoder.sv)
 - [instruction_memory.sv](rtl/instruction_memory.sv)
 - [mux.sv](rtl/mux.sv)
+- [mux4.sv](rtl/mux4.sv)
 - [program_counter.sv](rtl/program_counter.sv)
 - [sign_extend.sv](rtl/sign_extend.sv)
-- [add.sv](rtl/add.sv)
 - [data_memory.sv](rtl/data_memory.sv)
 - [_top.sv_](rtl/top.sv) 
 
-```.txt
 
-
-
-```
+#### Single Cycle Schematic
 
 ![full-single-cycle](images/cpu-diagram1.png)
 
@@ -70,6 +67,75 @@ Our individual statements are included here:
 
 <br>
 
+### Testbenches
+
+- CPU Tests Gtest
+- Main Decoder Gtest
+- Mux Gtest
+- Register File Gtest
+- PDF Vbuddy
+- F1 Vbuddy
+- Dawud to add more here 
+
+### How to Run Tests
+
+- Run all tests by calling [./all_tests.sh](all_tests.sh)
+- This will run tests in the following order:
+    1. All CPU tests - [verify](tb/tests/verify.cpp) 
+    2. All other tests written to confirm that all extension instructions work - [tb](tb/tests/)
+    3. Check to see if Vbuddy is connected and then run the F1 Vbuddly Lights (**toggle trigger on** with vbuddy button  to start the lights sequence)
+    4. Checks to see if vbuddy is connected and then plot the following in infinite loops
+        1. PDF plot for noisy.mem
+        1. PDF plot for gaussiam.mem
+        1. PDF plot for triangle.mem
+        1. PDF plot for sine.mem
+    5. **Press q to quit during the pdf plot process to move onto the next pdf**
+
+    
+<br>
+
+---
+
+<br>
+
+### Demo Youtube Links
+
+[playlist link](https://www.youtube.com/watch?v=qjUhrumEX5c&list=PL78xv8np-SRZvxV5_pwV2YfbVGvgrlxk_&index=1)
+
+[F1_demo](https://youtu.be/oubu2vcvN4A)
+[gaussian_demo](https://www.youtube.com/watch?v=XsvtbyOxPrA&list=PL78xv8np-SRZvxV5_pwV2YfbVGvgrlxk_&index=5)
+[noisy_demo](https://www.youtube.com/watch?v=qjUhrumEX5c&list=PL78xv8np-SRZvxV5_pwV2YfbVGvgrlxk_&index=1)
+[triangle_demo](https://www.youtube.com/watch?v=rP_yzRazzSI&list=PL78xv8np-SRZvxV5_pwV2YfbVGvgrlxk_&index=4)
+[sine_demo](https://www.youtube.com/watch?v=FSrQJ3Ej-L4&list=PL78xv8np-SRZvxV5_pwV2YfbVGvgrlxk_&index=3)
+
+<br>
+
+---
+
+<br>
+
+### Extension - Pipelined CPU + RISCV-32M Implementation
+
+#### Main Branch - Single Cycle CPU
+- Base single cycle CPU implementing all 45 32IM instrucitons (excluding ecall/ebreak)
+
+#### Pipelined CPU
+- A base pipelined cpu with a different architecture
+[read more here](https://github.com/MAadinP/RISC-V-Group-20/tree/pipelined-cpu)
+
+#### Pipelined CPU-2
+- Implements the full instruction set
+[read more here](https://github.com/MAadinP/RISC-V-Group-20/tree/pipelined-cpu-2)
+
+#### Cached CPU
+- Implements 2 way associative cache
+[read more here](https://github.com/MAadinP/RISC-V-Group-20/tree/cached-cpu)
+
+<br>
+
+---
+
+<br>
 
 ### References
 
@@ -125,31 +191,3 @@ Our individual statements are included here:
 ![loadsandstores](images/loadsandstores.png)
 
 </center>
-
-<br>
-
----
-
-<br>
-
-### Testbenches
-
-### How to Run Tests
-
-- Run all tests by calling [./all_tests.sh](all_tests.sh)
-- This will run tests in the following order:
-    1. All CPU tests - [verify](tb/tests/verify.cpp) 
-    2. All other tests written to confirm that all extension instructions work - [tb](tb/tests/)
-    3. Checks to see if vbuddy is connected and then
-        1. PDF plot for noisy.mem, gaussiam.mem, triangle.mem
-
-<br>
-
----
-
-<br>
-
-
-### Extension - Pipelined CPU + RISCV-32M Implementation
-
-#### Pipelined CPU
