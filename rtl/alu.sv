@@ -11,12 +11,13 @@ module alu #(
     logic [63:0] mul_result;
     
     always_comb begin
+        mul_result = '0;
         case(alu_sel)
             5'b00000: alu_out = alu_op1 + alu_op2;                                                      // ADD
             5'b00001: alu_out = alu_op1 - alu_op2;                                                      // SUB
             5'b00010: alu_out = alu_op1 << alu_op2[4:0];                                                // SLL
-            5'b00011: alu_out = ($signed(alu_op1) < $signed(alu_op2)) ? 1'b1 : 1'b0;                    // SLT
-            5'b00100: alu_out = (alu_op1 < alu_op2) ? 1'b1 : 1'b0;                                      // SLTU
+            5'b00011: alu_out = ($signed(alu_op1) < $signed(alu_op2)) ? 32'b1 : 32'b0;                    // SLT
+            5'b00100: alu_out = (alu_op1 < alu_op2) ? 32'b1 : 32'b0;                                      // SLTU
             5'b00101: alu_out = alu_op1 ^ alu_op2;                                                      // XOR
             5'b00110: alu_out = alu_op1 >> alu_op2[4:0];                                                // SRL
             5'b00111: alu_out = $signed(alu_op1) >>> alu_op2[4:0];                                      // SRA
@@ -36,7 +37,7 @@ module alu #(
                 alu_out = mul_result[63:32];                                                        // MULH
             end
             5'b01100: begin
-                mul_result = $signed(alu_op1) * alu_op2;
+                mul_result = $signed(alu_op1) * $unsigned(alu_op2);
                 alu_out = mul_result[63:32];                                                        // MULHSU
             end
             //MULHSU needs to be tested to make sure it doesn't just perform unsigned multiplication

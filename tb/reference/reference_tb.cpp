@@ -25,7 +25,7 @@ int main(int argc, char **argv, char **env)
     // INITIALISATIONS
     top->clk = 1;
     top->rst = 0;
-    top->trigger = 0;
+    top->trigger = 1;
 
     // MAIN CLOCK CYCLES
     for (simcyc = 0; simcyc < MAX_SIM_CYC; simcyc++)

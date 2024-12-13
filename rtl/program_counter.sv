@@ -15,7 +15,7 @@ module program_counter # (
     initial pc = 32'hBFC00000;
 
     always_comb begin
-        pc_plus4 = pc + 4'b0100;
+        pc_plus4 = pc + 32'h00000004;
 
         if(pc_branch)begin
             pc_next = pc_target;
@@ -29,7 +29,7 @@ module program_counter # (
     end
 
     always_ff @(posedge clk) begin
-        if (rst || trigger)
+        if (rst || ~trigger)
             pc <= 32'hBFC00000;
         else
             pc <= pc_next;

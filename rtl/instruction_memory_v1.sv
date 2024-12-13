@@ -2,6 +2,7 @@ module instruction_memory_v1 # (
     parameter ADDRESS_WIDTH = 32,
     parameter DATA_WIDTH = 32
 )(
+    /* verilator lint_off UNUSED */
     input   logic [ADDRESS_WIDTH-1:0]   pc,
     output  logic [DATA_WIDTH-1:0]      instr
 );

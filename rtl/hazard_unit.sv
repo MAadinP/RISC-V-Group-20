@@ -1,18 +1,18 @@
 module hazard_unit #(
-    parameter ADDRESS_WIDTH = 5
+    //parameter ADDRESS_WIDTH = 5
     //didn't use but feel free to implement
 ) (
     //going to let the branch/jump unit do the flushing instead of hazard unit
-    input   logic [5:0]     rs1,
-    input   logic [5:0]     rs2,
-    input   logic [5:0]     rd_in,
-    input   logic [5:0]     exec_rd,
-    input   logic [5:0]     mem_rd,
+    input   logic [4:0]     rs1,
+    input   logic [4:0]     rs2,
+    input   logic [4:0]     rd_in,
+    input   logic [4:0]     exec_rd,
+    input   logic [4:0]     mem_rd,
     input   logic           exec_lw,//the lw from the execute stage
     input   logic [2:0]     sign_extend_sel, //comes from control unit
     input   logic [6:0]     opcode,
     
-    output  logic [5:0]     rd_out,
+    output  logic [4:0]     rd_out,
     output  logic           lw,//the lw going to the execute stage
     output  logic           mem_mux2,//this is the mux that decides whether the alu result or the lui result is used in forwarding
     output  logic           stall,//remember to connect to reset of execute reg

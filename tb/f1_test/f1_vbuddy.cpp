@@ -38,7 +38,7 @@ int main(int argc, char **argv, char **env)
             top->eval();         // Evaluate design
         }
 
-        vbdCycle(top->clk);
+        vbdCycle(simcyc);
         // Update trigger signal
         top->trigger = vbdFlag();
 
@@ -46,8 +46,8 @@ int main(int argc, char **argv, char **env)
         vbdBar(top->a0 & 0xFF);
 
         // Optional debug output
-        std::cout << "Cycle: " << simcyc << ", Trigger: " << top->trigger 
-                  << ", a0: " << (top->a0 & 0xFF) << std::endl;
+        // std::cout << "Cycle: " << simcyc << ", Trigger: " << top->trigger 
+        //           << ", a0: " << (top->a0 & 0xFF) << std::endl;
 
         // Exit condition
         if (Verilated::gotFinish() || (vbdGetkey() == 'q')) break;
