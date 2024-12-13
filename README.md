@@ -17,7 +17,7 @@
 - [ ] As a further streched goal, complete the **RV32IM** processor
 
 Our individual statements are included here:
-- 
+[Aadin](statements/Aadin-Personal-Statement.md)
 
 <br>
 
@@ -56,6 +56,8 @@ Our individual statements are included here:
 - [data_memory.sv](rtl/data_memory.sv)
 - [_top.sv_](rtl/top.sv) 
 
+
+[See Contributions Here]()
 
 #### Single Cycle Schematic
 

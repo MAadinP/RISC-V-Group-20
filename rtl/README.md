@@ -13,7 +13,7 @@
 | alu |  |  | **✘** |  |  |
 | branch_control | **✘** |  |  |  |  |
 | control_unit | ✗ |  |  | ✗ |  |
-| data_memory | **✘** |  |  |  |  |
+| data_memory | **✘** | ✗ |  |  |  |
 | datapath_top | **✘** |  |  |  |  |
 | instruction_memory |  | **✘** |  |  |  |
 | main_decoder | ✗ |  |  | ✗ |  |
