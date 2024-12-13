@@ -14,7 +14,7 @@
 - [x] To verify your **RV32IM** design
 - [x] As stretched goal, to implement a simple pipelined version of the microarchitecture with hazard detection and mitigation
 - [ ] As a further stretched goal, add data cache to the pipelined **RV32IM**
-- [ ] As a further streched goal, complete the **RV32IM** processor
+- [x] As a further streched goal, complete the **RV32IM** processor
 
 Our individual statements are included here:
 [Aadin](statements/Aadin-Personal-Statement.md)
@@ -85,6 +85,7 @@ Our individual statements are included here:
 **✘** - Main Contribution
 ✗ - Assisted/Fixed
 
+# TODO - Darry Pipeline and Cache
 
 | Tasks  |  Aadin  |  Ethan  |  Darryl  |  Dawud  |  Aidan  |
 |:------:|:-------:|:-------:|:--------:|:-------:|:-------:|
@@ -134,7 +135,8 @@ Our individual statements are included here:
 - Register File Gtest
 - PDF Vbuddy
 - F1 Vbuddy
-- Dawud to add more here 
+- Extra Instructions 
+- Unused Unit Tests
 
 ### How to Run Tests
 
@@ -176,7 +178,7 @@ Our individual statements are included here:
 ### Extension - Pipelined CPU + RISCV-32M Implementation
 
 #### Main Branch - Single Cycle CPU
-- Base single cycle CPU implementing all 45 32IM instrucitons (excluding ecall/ebreak)
+- Base single cycle CPU implementing 32IM instrucitons (excluding ecall/ebreak)
 
 #### Pipelined CPU
 - A base pipelined cpu with a different architecture

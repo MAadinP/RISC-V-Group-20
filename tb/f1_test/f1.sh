@@ -6,7 +6,7 @@ rm -f *.vcd
 
 ../attach_usb.sh
 
-./assemble.sh ../asm/f1.s
+./assemble.sh f1.s
 
 # run Verilator to translate Verilog into C++, including C++ testbench
 verilator -Wall --cc --trace ../../rtl/top.sv -I../../rtl --exe f1_vbuddy.cpp

@@ -47,21 +47,21 @@ special design decisons, and what you might do differently if you were to do it 
     - fully functional all_tests.sh script and added to single cycle documentations
 - Written to call all tests and testbenches available in the tb/ folder in one command.
 - This script starts by running the Gtest testbenches and the output for the number of tests passed can be seen in the terminal
-- ![image0](image.png)
+- ![image0](alltests.png)
 
 - This bit of the script makes sure that all the tests pass in which case it will proceed to the next tests will be run
-![failtest](image-1.png)
+![failtest](alltests1.png)
 - In an incorrect case:
     - enter the tb directory and run **./doit.sh** <tests/<file_tb.cpp>> to run an individual test or without any parameters to run all tests in the tests/ directory 
     - enter the reference directory and running the **./reference.sh** (ensure that the data memory is initialised to the relevant .mem file)
 - The next stage is to connect the vbuddy and then execute the f1 program and the pdf plots
-![vbuddy](image-2.png)
-![runvbuddy](image-3.png)
+![vbuddy](alltests2.png)
+![runvbuddy](alltests3.png)
 
 ### major fixes
 
 - **Relevant Commits:**
-    -
+    - all control signals updated
 
 - There were some major fixes 
 
