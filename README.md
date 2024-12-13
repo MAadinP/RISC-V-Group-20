@@ -18,9 +18,9 @@
 
 Our individual statements are included here:
 [Aadin](statements/Aadin-Personal-Statement.md)
-[Ethan](statements/)
-[Darryl](statements/Darryl-Personal-Statement.pdf)
-[Dawud](statements/)
+[Ethan](statements/Ethan-Personal-Statement.md)
+[Darryl](statements/Darryl-Personal-Statement.pdf) - Darryl-Personal-Statement.pdf in statements
+[Dawud](statements/Dawud-Individual-Statement.md)
 [Aidan](statements/)
 
 
@@ -122,7 +122,6 @@ Our individual statements are included here:
 | top |  |  |  |  | **✘** |
 
 
-
 #### Single Cycle Schematic
 
 ![full-single-cycle](images/cpu-diagram1.png)
@@ -135,14 +134,31 @@ Our individual statements are included here:
 
 ### Testbenches
 
-- CPU Tests Gtest
-- Main Decoder Gtest
-- Mux Gtest
-- Register File Gtest
+- CPU Tests
+- Main Decoder
+- Mux
+- Register File 
 - PDF Vbuddy
 - F1 Vbuddy
 - Extra Instructions 
 - Unused Unit Tests
+
+| Tasks  |  Aadin  |  Ethan  |  Darryl  |  Dawud  |  Aidan  |
+|:------:|:-------:|:-------:|:--------:|:-------:|:-------:|
+| all_tests.sh | **✘** |  |  |  |  |
+| reference.sh | **✘** |  |  |  |  |
+| reference_tb.cpp| **✘** |  |  |  |  |
+| f1.sh | **✘** |  |  |  |  |
+| f1_vbuddy.cpp | **✘** |  |  |  |  |
+| auipc.s | |  |  | **✘** |  |
+| auipc_tb.cpp| |  |  | **✘** |  |
+| lbu_lhu.s | |  |  | **✘** |  |
+| lbu_lhu_tb.cpp| |  |  | **✘** |  |
+| (unused) instruction_memory_tb.cpp | |  |  | **✘** |  |
+| (unused) regfile_tb.cpp | | **✘** |  |  |  |
+| (unused) main_decoder.cpp | |  |  | **✘** |  |
+| (unused)  | |  |  | **✘** |  |
+
 
 ### How to Run Tests
 
