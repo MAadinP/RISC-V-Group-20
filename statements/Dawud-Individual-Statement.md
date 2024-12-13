@@ -34,6 +34,7 @@
 ### Design Decisions
 
 #### Control Unit and main_decoder.sv
+![Picture of Control Unit in Pipelined CPU](pipe_cu.png)
 
 - **Relevant Contributions:**
     - Designed the main_decoder module to handle instruction decoding and control signal generation.
@@ -46,6 +47,7 @@
 - **Relevant Contributions:**
     - Worked alongside Darryl to adapt modules for the pipelined architecture.
     - Debugged issues in individual files within the pipelined branch, resolving data hazards and ensuring proper synchronisation.
+    ![Branch unit in pipelined CPU](branch_unit.png)
 
 - The adjustments were carefully made to preserve functionality while optimising performance for a pipelined architecture. This involved analysing data flow and modifying control signals to handle pipeline-specific challenges.
 
@@ -76,6 +78,13 @@
 
 - The tests required careful analysis of instruction formats and edge cases to ensure robust coverage for both single-cycle and pipelined architectures.
 
+#### Testbenches
+
+- **Relevant Contributions**
+        - Created the main decoder test bench to verify functionality and performance, which served as a guide for many of the other test benches.  
+        - Collaborated with peers to enhance the formatting and structure of these test benches, ensuring consistency and clarity across the project.
+
+
 #### General Debugging and Integration
 
 - Contributed significantly to integrating modules within the CPU design by addressing module dependencies and resolving functional errors.
@@ -84,3 +93,7 @@
 ### What I Might Do Differently
 
 - **Team Communication:** Hold more structured group meetings to clarify expectations
+
+- **Design Improvements:** Allocate more time to refining the pipeline architecture and implementing an instruction cache for enhanced performance.
+
+- **Testing Framework:** Develop a more comprehensive testbench suite to automate the validation of assembly tests and Verilog modules, reducing the manual testing overhead.
