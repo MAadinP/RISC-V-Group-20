@@ -41,6 +41,9 @@ special design decisons, and what you might do differently if you were to do it 
 
 ### Design Decisions
 
+- The design for the single cycle cpu was mainly driven by me. I opened a drawing board to change the cpu layout from lab 4 to incorporate the full 32IM instruction set
+- This meant redesign
+
 #### all_tests.sh
 
 - **Relevant Commit Names:** 
@@ -64,7 +67,7 @@ special design decisons, and what you might do differently if you were to do it 
     - all control signals updated
 
 - There were some major fixes from the initial main decoder made by Dawud. There were plenty of control signals missing/not yet implement
-- These included all select  signals for the muxes before the ALU. I also redesigned the  
+- These included all select  signals for the muxes before the ALU. I also redesigned the 
 
 #### data_memory.sv
 
