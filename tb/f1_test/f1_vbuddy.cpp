@@ -41,6 +41,7 @@ int main(int argc, char **argv, char **env)
         vbdCycle(simcyc);
         // Update trigger signal
         top->trigger = vbdFlag();
+        //top->rst = ((vbdValue) == 100);
 
         // Display bar graph (optional)
         vbdBar(top->a0 & 0xFF);
