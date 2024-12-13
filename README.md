@@ -116,10 +116,10 @@ Our individual statements are included here:
 | data_memory | | **✘**  |  |  |  |
 | design | ✗ | **✘** |  |  |  |
 | **Cached-cpu** |  |  |  |  |  |
-| cache |  |  |  |  |  |
-| data memory |  |  |  |  |  |
+| cache.sv |  |  |  |  | **✘** |
+| data memory |  |  |  |  | **✘** |
 | hit mux |  |  |  |  | **✘**  |
-| top |  |  |  |  | **✘** |
+| top | ✗  |  |  |  | **✘** |
 
 
 #### Single Cycle Schematic
@@ -203,7 +203,7 @@ Our individual statements are included here:
 - Base single cycle CPU implementing 32IM instrucitons (excluding ecall/ebreak)
 
 #### Pipelined CPU
-- A base pipelined cpu with a different architecture
+- A base pipelined cpu with a different architecture - Incomplete
 [read more here](https://github.com/MAadinP/RISC-V-Group-20/tree/pipelined-cpu)
 
 #### Pipelined CPU-2
