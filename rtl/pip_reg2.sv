@@ -66,7 +66,7 @@ module pip_reg2 #(
             data_mem_write_en_out <= 3'b000;
             reg_write_en_out <= 1'b0;
             write_back_mux_out <= 2'b01;
-            func3 <= 3'b000;
+            func_3_out <= 3'b000;
         end
         else begin
             pc_out <= pc_in;

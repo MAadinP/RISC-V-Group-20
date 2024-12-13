@@ -85,7 +85,7 @@ module top #(
     logic [31:0]    dram_cached;
     logic           hitmux_sel;
     logic [31:0]    array_mux;
-    logic [31:0]    dram_mux
+    logic [31:0]    dram_mux;
 
 
     program_counter program_counter (
@@ -345,12 +345,11 @@ module top #(
     );
 
     mux_2 hitmux(
-        .mux_sel(hitmux_sel)
-        .in0(dram_mux)
-        .in1(array_mux)
+        .mux_sel(hitmux_sel),
+        .in_0(dram_mux),
+        .in_1(array_mux),
         .d_out(d_mem_res_wire)
-
-    )
+    );
 
     pip_reg4 pipeline_reg4 (
         .clk(clk),

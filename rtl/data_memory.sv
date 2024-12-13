@@ -63,13 +63,13 @@ module data_memory #(
 
     always_comb begin
         if (dirty_en) begin
-            ram[dirty_add] <= dirty_en[7:0];                                     
+            ram[dirty_add] <= dirty_data[7:0];                                     
             ram[dirty_add+1] <= dirty_data[15:8];
             ram[dirty_add+2] <= dirty_data[23:16];                                     
             ram[dirty_add+3] <= dirty_data[31:24];
         end
     end
 
-    assign new_data = {ram[address+3], ram[address+2], ram[address+1], ram[address]}
+    assign new_data = {ram[address+3], ram[address+2], ram[address+1], ram[address]};
 
 endmodule
