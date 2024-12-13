@@ -104,6 +104,7 @@ Our individual statements are included here:
 | --- |  |  |  |  |  |
 | **Pipelined-cpu** |  |  |  |  |  |
 | hazard_unit |  |  | **✘** |  |  |
+| branch_unit |  |  |  | **✘** |  |
 | control_unit |  |  | ✗ |  |  |
 | pipeline_reg |  |  | **✘** |  |  |
 | alu_decoder |  |  | ✗ |  |  |
