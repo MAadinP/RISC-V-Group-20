@@ -324,13 +324,12 @@ module top #(
         .dirty_add(dirty_address),
         .dirty_data(dirty_datab),
         .dirty_en(dirty_enable),
-
         .new_data(dram_cached),
         .data_out(dram_mux)
     );
     cache cache_unit (
         .clk(clk),
-        .reset(rst),
+        // .reset(rst),
         .funct3(func3_cacheget3),
         .mem_address(alu_res_reg3_wire), /////////addd muxxxxx
         .write_en(d_write_en_reg3_wire),

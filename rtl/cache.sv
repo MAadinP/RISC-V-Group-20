@@ -9,7 +9,7 @@ module cache#(
 ) (
     /* verilator lint_off WIDTH */
     input   logic                       clk,
-    input   logic                       reset,
+    // input   logic                       reset,
     input   logic [2:0]                 funct3,
     input   logic [MEMORY_WIDTH-1:0]    mem_address, // 
     input   logic                       write_en,    // high when the processor writes to cache, low otherwise
@@ -203,13 +203,13 @@ module cache#(
         end
     end
 //reset makes all valid bits 0
-    always_ff @(posedge clk or posedge reset) begin
-        if (reset) begin
-            for (int b = 0; b < SET_WAYS * SET_NO; b++) begin
-                cache[b][64] <= 1'b0; // Reset the entire word
-            end
-        end
-    end
+    // always_ff @(posedge clk) begin
+    //     if (reset) begin
+    //         for (int b = 0; b < SET_WAYS * SET_NO; b++) begin
+    //             cache[b][64] = 1'b0; // Use blocking assignment
+    //         end
+    //     end
+    // end
 
 
 endmodule
