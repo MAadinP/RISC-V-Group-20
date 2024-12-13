@@ -7,6 +7,7 @@ module cache#(
     parameter CACHE_WIDTH  = 65, //{64}V + {63}D + {62}LR + {61:32}30 addy + {31:0} 32 data //61:32 = set{40:32} tag {61:41}
     parameter SET_NO       = 512
 ) (
+    /* verilator lint_off WIDTH */
     input   logic                       clk,
     input   logic                       reset,
     input   logic [2:0]                 funct3,
@@ -75,8 +76,8 @@ module cache#(
 //Always/Constantly asynch reads - can be discarded outside cache
     always_comb begin
         if(hit)begin
-            array_add = SET_WAYS*set + ~h0;
-            atwin_add = SET_WAYS*set + h0;
+            array_add = SET_WAYS*set + {{(SET_LENGTH){1'b0}}, ~h0};
+            atwin_add = SET_WAYS * set + {{SET_LENGTH{1'b0}}, h0};
             case(funct3)
                 3'b000: begin
                     case(mem_address[1:0])
@@ -116,8 +117,8 @@ module cache#(
     end
 //Set up replacing block, evacuate dirty data
     always_comb begin
-        rep_add = SET_WAYS*set + lru0;//both are 0 at init, so top in set will be default
-        rtwin_add = SET_WAYS*set + ~lru0;
+        rep_add = SET_WAYS * set + {{SET_LENGTH{1'b0}}, lru0};
+        rtwin_add = SET_WAYS * set + {{SET_LENGTH{1'b0}}, ~lru0};
         dirty_bit = cache[rep_add][63];
         if(dirty_bit && ~hit) begin //hit w is same mem Y, hit !w is read Y, !hit w is write other data X, !hit !w is load X
             dirty_add = {cache[rep_add][61:32],2'b00};

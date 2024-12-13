@@ -63,7 +63,7 @@ module pip_reg2 #(
             immediate_out <= '0;
             alu_sel_out <= 5'b00000;
             branch_sel_out <= 3'b000;
-            data_mem_write_en_out <= 3'b000;
+            data_mem_write_en_out <= 1'b0;
             reg_write_en_out <= 1'b0;
             write_back_mux_out <= 2'b01;
             func_3_out <= 3'b000;

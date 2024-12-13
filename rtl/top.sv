@@ -328,7 +328,7 @@ module top #(
         .new_data(dram_cached),
         .data_out(dram_mux)
     );
-    cache cache (
+    cache cache_unit (
         .clk(clk),
         .reset(rst),
         .funct3(func3_cacheget3),

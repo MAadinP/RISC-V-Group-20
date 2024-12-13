@@ -15,7 +15,7 @@ module program_counter # (
     initial pc = 32'hBFC00000;
 
     always_comb begin
-        pc_plus4 = pc + 4'b0100;
+        pc_plus4 = pc + 32'd4;
 
         if(pc_branch)begin
             pc_next = pc_target;
