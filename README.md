@@ -18,6 +18,11 @@
 
 Our individual statements are included here:
 [Aadin](statements/Aadin-Personal-Statement.md)
+[Ethan](statements/)
+[Darryl](statements/)
+[Dawud](statements/)
+[Aidan](statements/)
+
 
 <br>
 
@@ -57,7 +62,59 @@ Our individual statements are included here:
 - [_top.sv_](rtl/top.sv) 
 
 
-[See Contributions Here]()
+<br>
+
+---
+
+</br>
+
+## Contributions
+
+
+| Username | Person |
+|:-------:|:-------:|
+|**MAadinP**|Aadin|
+|**root** (TheZuzuSnuSnu)|Ethan|
+|**DarrylProgrammer**|Darryl|
+|**dk7**-stacker|Dawud|
+|**ak6123**|Aidan|
+
+### Submodule Task Allocation
+
+**Key**
+**✘** - Main Contribution
+✗ - Assisted/Fixed
+
+
+| Tasks  |  Aadin  |  Ethan  |  Darryl  |  Dawud  |  Aidan  |
+|:------:|:-------:|:-------:|:--------:|:-------:|:-------:|
+| repo set up | **✘** |  |  |  |  |
+| **Single Cycle** |  |  |  |  |  |
+| alu_decoder | ✗ |  | **✘** |  |  |
+| alu |  |  | **✘** |  |  |
+| branch_control | **✘** |  |  |  |  |
+| control_unit | ✗ |  |  | ✗ |  |
+| data_memory | **✘** | ✗ |  |  |  |
+| datapath_top | **✘** |  |  |  |  |
+| instruction_memory |  | **✘** |  |  |  |
+| main_decoder | ✗ |  |  | ✗ |  |
+| program_counter |  | ✗ |  |  | **✘** |
+| reg_file |  | **✘** |  |  |  |
+| sign_extend | **✘** |  |  |  |  |
+| top | **✘** |  |  |  |  |
+| --- |  |  |  |  |  |
+| **Pipelined-cpu** |  |  |  |  |  |
+| top | **✘** |  |  |  |  |
+| **Pipelined-cpu-2** |  |  |  |  |  |
+| hazard_unit | | **✘** |  |  |  |
+| control_unit | | **✘** |  |  |  |
+| pipeline_registers | | **✘**  |  |  |  |
+| data_memory | | **✘**  |  |  |  |
+| design | ✗ | **✘** |  |  |  |
+| **Cached-cpu** |  |  |  |  |  |
+| top | **✘** |  |  |  |  |
+
+
 
 #### Single Cycle Schematic
 

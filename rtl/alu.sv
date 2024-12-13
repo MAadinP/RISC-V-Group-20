@@ -1,6 +1,7 @@
 module alu #(
     parameter DATA_WIDTH = 32
 ) (
+    /* verilator lint_off LATCH */
     input   logic [DATA_WIDTH-1:0]  alu_op1,
     input   logic [DATA_WIDTH-1:0]  alu_op2,
     input   logic [4:0]             alu_src,
