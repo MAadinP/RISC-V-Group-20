@@ -12,7 +12,7 @@ module control_unit #(
     output  logic [1:0]                 write_back_mux,
     output  logic                       reg_write_en,
     output  logic [4:0]                 alu_sel,
-    output  logic [2:0]                 data_mem_write_en //the size will be changed later for load/store half and byte
+    output  logic                       data_mem_write_en //made into 1 bit for cache                
 );
 
     always_comb begin
@@ -23,7 +23,7 @@ module control_unit #(
                 write_back_mux = 2'b10;
                 reg_write_en =  1'b1;
                 alu_sel = 5'b00000; //doesn't matter so will default to add in code
-                data_mem_write_en = 3'b010;
+                data_mem_write_en = 0;
             end
             7'b0010111: begin //ALUIPC
                 sign_extend_sel = 3'b011;
@@ -31,7 +31,7 @@ module control_unit #(
                 write_back_mux = 2'b01;
                 alu_sel = 5'b00000;
                 reg_write_en =  1'b1;
-                data_mem_write_en = 3'b010;
+                data_mem_write_en = 0;
             end
             7'b1101111: begin //JAL
                 sign_extend_sel = 3'b100;
@@ -39,7 +39,7 @@ module control_unit #(
                 write_back_mux = 2'b00;
                 alu_sel = 5'b00000;
                 reg_write_en =  1'b1;
-                data_mem_write_en = 3'b010;
+                data_mem_write_en = 0;
             end
             7'b1100111: begin //JALR
                 if(func_3 == 3'b000) begin
@@ -48,7 +48,7 @@ module control_unit #(
                     write_back_mux = 2'b00;
                     alu_sel = 5'b00000;
                     reg_write_en =  1'b1;
-                    data_mem_write_en = 3'b010;
+                    data_mem_write_en = 0;
                 end
                 else begin
                     sign_extend_sel = 3'b111; //Sets sign extend result to 0
@@ -56,7 +56,7 @@ module control_unit #(
                     write_back_mux = 2'b01;
                     alu_sel = 5'b00000;
                     reg_write_en =  1'b0;
-                    data_mem_write_en = 3'b010;
+                    data_mem_write_en = 0;
                 end
             end
             7'b1100011: begin //Branch
@@ -64,7 +64,7 @@ module control_unit #(
                 write_back_mux = 2'b00;
                 alu_sel = 5'b00000;
                 reg_write_en =  1'b0;
-                data_mem_write_en = 3'b010;
+                data_mem_write_en = 0;
                 case(func_3)
                     3'b000: branch_sel = 3'b010; //BEQ
                     3'b001: branch_sel = 3'b011; //BNE
@@ -83,37 +83,37 @@ module control_unit #(
                         write_back_mux = 2'b11;
                         sign_extend_sel = 3'b000;
                         reg_write_en =  1'b1;
-                        data_mem_write_en = 3'b000;
+                        data_mem_write_en = 0;
                     end
                     3'b001:begin //LH
                         write_back_mux = 2'b11;
                         sign_extend_sel = 3'b000;
                         reg_write_en =  1'b1;
-                        data_mem_write_en = 3'b001;
+                        data_mem_write_en = 0;
                     end
                     3'b010:begin //LW
                         write_back_mux = 2'b11;
                         sign_extend_sel = 3'b000;
                         reg_write_en =  1'b1;
-                        data_mem_write_en = 3'b010;
+                        data_mem_write_en = 0;
                     end
                     3'b100:begin //LBU
                         write_back_mux = 2'b11;
                         sign_extend_sel = 3'b000;
                         reg_write_en =  1'b1;
-                        data_mem_write_en = 3'b011;
+                        data_mem_write_en = 0;
                     end
                     3'b101:begin //LHU
                         write_back_mux = 2'b11;
                         sign_extend_sel = 3'b000;
                         reg_write_en =  1'b1;
-                        data_mem_write_en = 3'b100;
+                        data_mem_write_en = 0;
                         end
                     default:begin
                         write_back_mux = 2'b10;
                         sign_extend_sel = 3'b111;
                         reg_write_en =  1'b0;
-                        data_mem_write_en = 3'b010;
+                        data_mem_write_en = 0;
                     end
                 endcase
             end
@@ -125,19 +125,19 @@ module control_unit #(
                 case(func_3)
                     3'b000: begin //SB
                         sign_extend_sel = 3'b001;
-                        data_mem_write_en = 3'b101;
+                        data_mem_write_en = 1;
                     end
                     3'b001: begin //SH
                         sign_extend_sel = 3'b001;
-                        data_mem_write_en = 3'b110;
+                        data_mem_write_en = 1;
                     end
                     3'b010: begin //SW
                         sign_extend_sel = 3'b001;
-                        data_mem_write_en = 3'b111;
+                        data_mem_write_en = 1;
                     end
                     default: begin
                         sign_extend_sel = 3'b111;
-                        data_mem_write_en = 3'b010;
+                        data_mem_write_en = 1;
                     end
                 endcase
             end
@@ -145,7 +145,7 @@ module control_unit #(
                 sign_extend_sel = 3'b000;
                 branch_sel = 3'b000;
                 write_back_mux = 2'b01;
-                data_mem_write_en = 3'b010;
+                data_mem_write_en = 0;
                 case(func_3)
                     3'b000: begin //ADDI
                         alu_sel = 5'b00000;
@@ -205,7 +205,7 @@ module control_unit #(
                 sign_extend_sel = 3'b101;
                 branch_sel = 3'b000;
                 write_back_mux = 2'b01;
-                data_mem_write_en = 3'b010;
+                data_mem_write_en = 0;
 
                 if(func_7 == 7'b0000001)begin //multiply and divide extension
                     reg_write_en = 1'b1;
@@ -324,7 +324,7 @@ module control_unit #(
                 write_back_mux = 2'b00;
                 alu_sel = 5'b00000;
                 reg_write_en =  1'b0;
-                data_mem_write_en = 3'b010;
+                data_mem_write_en = 0;
             end
         endcase 
     end

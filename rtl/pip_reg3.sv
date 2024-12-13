@@ -11,9 +11,11 @@ module pip_reg3 #(
     input   logic [IMMEDIATE_WIDTH-1:0]     sign_immediate_in,
     input   logic [IMMEDIATE_WIDTH-1:0]     data_mem_d_in,
     input   logic                           mem_mux_in,
-    input   logic [2:0]                     data_mem_write_en_in,
+    input   logic                           data_mem_write_en_in,//cache
     input   logic                           reg_write_en_in,
     input   logic [1:0]                     write_back_mux_in,
+    input   logic [2:0]                     func_3_in,
+    
 
     output   logic                           lui_out,
     output   logic [IMMEDIATE_WIDTH-1:0]     pc_out,
@@ -22,9 +24,10 @@ module pip_reg3 #(
     output   logic [IMMEDIATE_WIDTH-1:0]     sign_immediate_out,
     output   logic [IMMEDIATE_WIDTH-1:0]     data_mem_d_out,
     output   logic                           mem_mux_out,
-    output   logic [2:0]                     data_mem_write_en_out,
+    output   logic                           data_mem_write_en_out,
     output   logic                           reg_write_en_out,
-    output   logic [1:0]                     write_back_mux_out
+    output   logic [1:0]                     write_back_mux_out,
+    output   logic [2:0]                     func_3_cache
 );
 
     always_ff @(posedge clk) begin
@@ -38,6 +41,7 @@ module pip_reg3 #(
         data_mem_write_en_out <= data_mem_write_en_in;
         reg_write_en_out <= reg_write_en_in;
         write_back_mux_out <= write_back_mux_in;
+        func_3_cache <= func_3_in;
     end
     
 endmodule

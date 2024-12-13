@@ -77,6 +77,15 @@ module top #(
     logic [31:0]    imm_reg4_wire;
     logic [31:0]    d_mem_res_reg4_wire;
     logic [1:0]     wb_mux_reg4_wire;
+    logic [2:0]     func3_3get2;
+    logic [2:0]     func3_cacheget3;
+    logic [31:0]    dirty_address;
+    logic [31:0]    dirty_datab;
+    logic           dirty_enable;
+    logic [31:0]    dram_cached;
+    logic           hitmux_sel;
+    logic [31:0]    array_mux;
+    logic [31:0]    dram_mux
 
 
     program_counter program_counter (
@@ -184,6 +193,7 @@ module top #(
         .data_mem_write_en_in(d_write_en_c_unit_wire),
         .reg_write_en_in(r_write_en_c_unit_wire),
         .write_back_mux_in(wb_mux_c_unit_wire),
+        .func_3(instr_reg1_wire[14:12]),
 
         .pc_out(pc_reg2_wire),
         .lw_out(lw_exec_wire),
@@ -202,7 +212,8 @@ module top #(
         .branch_sel_out(b_sel_reg2_wire),
         .data_mem_write_en_out(d_write_en_reg2_wire),
         .reg_write_en_out(r_write_en_reg2_wire),
-        .write_back_mux_out(wb_mux_reg2_wire)
+        .write_back_mux_out(wb_mux_reg2_wire),
+        .func_3_out(func3_3get2)
     );
 
     plus_4 plus_4 (
@@ -277,6 +288,7 @@ module top #(
         .data_mem_write_en_in(d_write_en_reg2_wire),
         .reg_write_en_in(r_write_en_reg2_wire),
         .write_back_mux_in(wb_mux_reg2_wire),
+        .func_3_in(func3_3get2),
         
         .lui_out(mem_mux2_wire),
         .pc_out(pc_reg3_wire),
@@ -287,7 +299,8 @@ module top #(
         .mem_mux_out(mem_mux_reg3_wire),
         .data_mem_write_en_out(d_write_en_reg3_wire),
         .reg_write_en_out(r_write_en_reg3_wire),
-        .write_back_mux_out(wb_mux_reg3_wire)
+        .write_back_mux_out(wb_mux_reg3_wire),
+        .func_3_cache(func3_cacheget3)
     );
 
     mux_2 mem_mux2 (
@@ -306,11 +319,38 @@ module top #(
 
     data_memory data_memory (
         .clk(clk),
+        .func3(func3_cacheget3),
         .address(alu_res_reg3_wire),
-        .data_in(d_mem_d_in_wire),
-        .write_en(d_write_en_reg3_wire),
-        .data_out(d_mem_res_wire)
+        .dirty_add(dirty_address),
+        .dirty_data(dirty_datab),
+        .dirty_en(dirty_enable),
+
+        .new_data(dram_cached),
+        .data_out(dram_mux)
     );
+    cache cache (
+        .clk(clk),
+        .reset(rst),
+        .funct3(func3_cacheget3),
+        .mem_address(alu_res_reg3_wire), /////////addd muxxxxx
+        .write_en(d_write_en_reg3_wire),
+        .cpu_data(d_mem_d_in_wire), //.data_in(d_mem_d_in_wire),
+        .new_data(dram_cached),
+
+        .hit(hitmux_sel),
+        .array_data(array_mux),
+        .dirty_add(dirty_address),
+        .dirty_data(dirty_datab),
+        .dirty_en(dirty_enable)
+    );
+
+    mux_2 hitmux(
+        .mux_sel(hitmux_sel)
+        .in0(dram_mux)
+        .in1(array_mux)
+        .d_out(d_mem_res_wire)
+
+    )
 
     pip_reg4 pipeline_reg4 (
         .clk(clk),

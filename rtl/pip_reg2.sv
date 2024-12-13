@@ -20,10 +20,11 @@ module pip_reg2 #(
     input   logic   [IMMEDIATE_WIDTH-1:0]   immediate_in,
     input   logic   [4:0]                   alu_sel_in,
     input   logic   [2:0]                   branch_sel_in,
-    input   logic   [2:0]                   data_mem_write_en_in,
+    input   logic                           data_mem_write_en_in,//cache
     input   logic                           reg_write_en_in,
     input   logic   [1:0]                   write_back_mux_in,
-
+    input   logic   [2:0]                   func_3,
+    
     output  logic   [IMMEDIATE_WIDTH-1:0]   pc_out,
     output  logic                           lw_out,
     output  logic                           lui_out,
@@ -39,9 +40,10 @@ module pip_reg2 #(
     output  logic   [IMMEDIATE_WIDTH-1:0]   immediate_out,
     output  logic   [4:0]                   alu_sel_out,
     output  logic   [2:0]                   branch_sel_out,
-    output  logic   [2:0]                   data_mem_write_en_out,
+    output  logic                           data_mem_write_en_out,
     output  logic                           reg_write_en_out,
-    output  logic   [1:0]                   write_back_mux_out
+    output  logic   [1:0]                   write_back_mux_out,
+    output  logic   [2:0]                   func_3_out
 );
 
     always_ff @(posedge clk) begin
@@ -64,6 +66,7 @@ module pip_reg2 #(
             data_mem_write_en_out <= 3'b000;
             reg_write_en_out <= 1'b0;
             write_back_mux_out <= 2'b01;
+            func3 <= 3'b000;
         end
         else begin
             pc_out <= pc_in;
@@ -84,6 +87,7 @@ module pip_reg2 #(
             data_mem_write_en_out <= data_mem_write_en_in;
             reg_write_en_out <= reg_write_en_in;
             write_back_mux_out <= write_back_mux_in;
+            func_3_out <= func_3;
         end
     end
 

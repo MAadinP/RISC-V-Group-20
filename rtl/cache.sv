@@ -8,6 +8,7 @@ module cache#(
     parameter SET_NO       = 512
 ) (
     input   logic                       clk,
+    input   logic                       reset,
     input   logic [2:0]                 funct3,
     input   logic [MEMORY_WIDTH-1:0]    mem_address, // 
     input   logic                       write_en,    // high when the processor writes to cache, low otherwise
@@ -18,7 +19,7 @@ module cache#(
     output  logic [MEMORY_WIDTH-1:0]    dirty_add,
     output  logic [DATA_WIDTH-1:0]      dirty_data,
     output  logic                       dirty_en,  //tells dram to write ddata at dadd
-    output  logic [MEMORY_WIDTH-1:0]    load_radd  //always req dram data from m_a, even if hit - reduces delay in case of miss - alt impls
+   // output  logic [MEMORY_WIDTH-1:0]    load_radd  //always req dram data from m_a, even if hit - reduces delay in case of miss - alt impls
 );
     logic [TAG_LENGTH-1:0]      inp_tag = mem_address[MEMORY_WIDTH-1:11];
     logic [TAG_LENGTH-1:0]      w0_tag;//sab
@@ -51,7 +52,7 @@ module cache#(
     assign w1_tag = cache [1+SET_WAYS*set][61:41];
     assign v0 = cache [SET_WAYS*set][CACHE_WIDTH-1]; 
     assign v1 = cache [1+SET_WAYS*set][CACHE_WIDTH-1];
-    assign load_radd = mem_address; //FEEDS INTO A DIFFERENT PORT ON DRAM
+   // assign load_radd = mem_address; //FEEDS INTO A DIFFERENT PORT ON DRAM
 //Hit
     always_comb begin
         if ((inp_tag == w0_tag) && (v0)) begin  //hit taken out instantly
@@ -193,6 +194,12 @@ module cache#(
         if (!hit && !write_en) begin
             cache [rep_add][63] <= 0;//undirtied
             cache [rep_add][31:0] <= new_data;
+        end
+    end
+//reset makes all valid bits 0
+    if (reset) begin
+        for (int b = 0; b < SET_WAYS*SET_NO; b++) begin
+            cache[b][64] = 1'b0;
         end
     end
 endmodule
