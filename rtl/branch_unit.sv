@@ -1,29 +1,23 @@
 module branch_unit #(
     parameter DATA_WIDTH = 32
 ) (
-    input   logic [DATA_WIDTH-1:0]  data_1,
-    input   logic [DATA_WIDTH-1:0]  data_2,
+    input   logic [DATA_WIDTH-1:0]  rs1,
+    input   logic [DATA_WIDTH-1:0]  rs2,
     input   logic [2:0]             branch_sel,
-    output  logic                   pc_sel
+    output  logic                   branch_taken
 );
-    logic equal;
-    logic less_than;
-
-    assign equal = (data_1 == data_2);
-    assign less_than = $unsigned(data_1) < $unsigned(data_2);
 
     always_comb begin
-        case (branch_sel)
-            3'b000: pc_sel = equal;                 // beq
-            3'b001: pc_sel = ~equal;                // bne
-            3'b010: pc_sel = 0;                     // no branch
-            3'b011: pc_sel = 1;                     // jal/jalr/auipc     
-            3'b100: pc_sel = less_than;             // blt
-            3'b101: pc_sel = ~less_than;            // bge
-            3'b110: pc_sel = ~less_than;            // bgeu
-            3'b111: pc_sel = less_than;             // bltu
-            default: pc_sel = 0;                    // no branch default
-        endcase 
+        case(branch_sel)
+            3'b000: branch_taken = 1'b0; //no jump
+            3'b001: branch_taken = 1'b1; //jump
+            3'b010: branch_taken = (rs1 == rs2); //BEQ
+            3'b011: branch_taken = (rs1 != rs2); //BNEQ
+            3'b100: branch_taken = ($signed(rs1) < $signed(rs2)); //BLT
+            3'b101: branch_taken = ($signed(rs1) >= $signed(rs2)); //BGE
+            3'b110: branch_taken = (rs1 < rs2); //BLTU
+            3'b111: branch_taken = (rs1 >= rs2); //BGEU
+            default: branch_taken = 1'b0;
+        endcase
     end
-
 endmodule
