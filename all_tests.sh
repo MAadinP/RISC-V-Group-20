@@ -10,6 +10,14 @@ if ! ./doit.sh; then
 fi
 echo "CPU tests completed."
 
+cd extra_instructions/
+if ! ./extra.sh; then
+    echo "ERROR: Extra tests (extra.sh) failed."
+    exit 1
+fi
+echo "Extra tests completed."
+cd ..
+
 # Step 2: Check if Vbuddy is connected and proceed with Vbuddy-specific tests
 VBUDDY_REGEX="[0-9]-[0-9] .* USB-SERIAL CH340"
 
