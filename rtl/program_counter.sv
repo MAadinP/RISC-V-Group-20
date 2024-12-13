@@ -29,7 +29,7 @@ module program_counter # (
     end
 
     always_ff @(posedge clk) begin
-        if (rst || trigger)
+        if (rst || ~trigger)
             pc <= 32'hBFC00000;
         else
             pc <= pc_next;

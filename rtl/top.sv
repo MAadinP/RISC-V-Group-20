@@ -37,7 +37,7 @@ module top #(
     logic [1:0]     wb_mux_c_unit_wire;
     logic           r_write_en_c_unit_wire;
     logic [4:0]     alu_sel_c_unit_wire;
-    logic [2:0]     d_write_en_c_unit_wire;
+    logic           d_write_en_c_unit_wire;
     logic [31:0]    pc_reg2_wire;
     logic           lui_reg2_wire;
     logic [1:0]     alu_mux1_reg2_wire;
@@ -51,7 +51,7 @@ module top #(
     logic [31:0]    imm_reg2_wire;
     logic [4:0]     alu_sel_reg2_wire;
     logic [2:0]     b_sel_reg2_wire;
-    logic [2:0]     d_write_en_reg2_wire;
+    logic           d_write_en_reg2_wire;
     logic           r_write_en_reg2_wire;
     logic [1:0]     wb_mux_reg2_wire;
     logic [31:0]    pc_plus4_wire;
@@ -67,7 +67,7 @@ module top #(
     logic [31:0]    imm_reg3_wire;
     logic [31:0]    d_mem_d_reg3_wire;
     logic           mem_mux_reg3_wire;
-    logic [2:0]     d_write_en_reg3_wire;
+    logic            d_write_en_reg3_wire;
     logic           r_write_en_reg3_wire;
     logic [1:0]     wb_mux_reg3_wire;
     logic [31:0]    d_mem_d_in_wire;

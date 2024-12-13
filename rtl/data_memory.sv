@@ -61,7 +61,7 @@ module data_memory #(
         endcase
     end
 
-    always_comb begin
+    always_ff @(posedge clk) begin
         if (dirty_en) begin
             ram[dirty_add] <= dirty_data[7:0];                                     
             ram[dirty_add+1] <= dirty_data[15:8];

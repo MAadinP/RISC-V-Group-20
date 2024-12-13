@@ -120,14 +120,19 @@ module cache#(
         rep_add = SET_WAYS * set + {{SET_LENGTH{1'b0}}, lru0};
         rtwin_add = SET_WAYS * set + {{SET_LENGTH{1'b0}}, ~lru0};
         dirty_bit = cache[rep_add][63];
-        if(dirty_bit && ~hit) begin //hit w is same mem Y, hit !w is read Y, !hit w is write other data X, !hit !w is load X
-            dirty_add = {cache[rep_add][61:32],2'b00};
+
+        // Ensure all control paths assign values to dirty_address, dirty_data, and dirty_enable
+        dirty_add = '0;  // Default value
+        dirty_data = '0;     // Default value
+        dirty_en = 0;        // Default value
+
+        if(dirty_bit && ~hit) begin
+            dirty_add = {cache[rep_add][61:32], 2'b00};
             dirty_data = cache[rep_add][31:0];
             dirty_en = 1;
-        end else begin
-            dirty_en = 0;
         end
     end
+
 //  write with hit
     always_ff@(posedge clk) begin
         if (hit && write_en) begin
@@ -201,7 +206,7 @@ module cache#(
     always_ff @(posedge clk or posedge reset) begin
         if (reset) begin
             for (int b = 0; b < SET_WAYS * SET_NO; b++) begin
-                cache[b][64] = 1'b0; // Reset the entire word
+                cache[b][64] <= 1'b0; // Reset the entire word
             end
         end
     end

@@ -26,7 +26,7 @@ module pip_reg1 #(
     end
 
     always_ff @(posedge clk) begin
-        if(rst || trigger) begin
+        if(rst || ~trigger) begin
             pc_out <= 32'hBFC00000;
             instr_out <= 32'h00000013;
         end

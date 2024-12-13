@@ -1,6 +1,5 @@
 module pip_reg3 #(
     parameter IMMEDIATE_WIDTH = 32,
-    parameter ADDRESS_WIDTH = 32,
     parameter R_ADRESS_WIDTH = 5
 ) (
     input   logic                           clk,

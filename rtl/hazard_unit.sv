@@ -1,7 +1,4 @@
-module hazard_unit #(
-    parameter ADDRESS_WIDTH = 5
-    //didn't use but feel free to implement
-) (
+module hazard_unit #() (
     //going to let the branch/jump unit do the flushing instead of hazard unit
     input   logic [4:0]     rs1,
     input   logic [4:0]     rs2,
